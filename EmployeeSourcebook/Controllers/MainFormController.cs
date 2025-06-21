@@ -13,12 +13,15 @@ namespace EmployeeSourcebook.Controllers
         private FormConnection _formConnection;
         private FormSettings _formSettings;
 
+        private ConnectionController _connectionController;
+
         public MainFormController(FormMain formMain, FormConnection formConnection, 
-            FormSettings formSettings)
+            FormSettings formSettings, ConnectionController connectionController)
         {
             _formMain = formMain;
             _formConnection = formConnection;
             _formSettings = formSettings;
+            _connectionController = connectionController;
 
             _formMain.ButtonConnectionSettingsClick += ShowFormConnection;
             _formMain.ButtonSettingsClick += ShowFormSettings;

@@ -14,6 +14,15 @@ namespace EmployeeSourcebook.Views
 {
     public partial class FormConnection : Form, IConnectionView
     {
+        public enum DbProviders
+        {
+            SQLite, PosgreSQL
+        }
+
+        public IConnectionInfo? ConnectionInfo { get; set; }
+        public event Action<IConnectionInfo?>? ConnectionChanged;
+
+        private bool _isDbProviderSet = false;
         private DbProviders _selectedDbProvider;
         private Dictionary<DbProviders, Control> _containersMap = new();
 
@@ -24,70 +33,73 @@ namespace EmployeeSourcebook.Views
             var providers = Enum.GetValues(typeof(DbProviders));
             comboBoxDbProvider.DataSource = providers;
             comboBoxDbProvider.SelectedItem = null;
+
+            panelSQLite.Hide();
+            panelPostgreSQL.Hide();
+
+            _containersMap.Add(DbProviders.SQLite, panelSQLite);
+            _containersMap.Add(DbProviders.PosgreSQL, panelPostgreSQL);
         }
 
-        public enum DbProviders
+        private void comboBoxcomboBoxDbProvider_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            SQLite, PosgreSQL
+            if (comboBoxDbProvider.SelectedItem != null)
+            {
+                if (_isDbProviderSet)
+                {
+                    tableLayoutPanelConnectionFieldsRoot.SetRow(_containersMap[_selectedDbProvider], 2);
+                    _containersMap[_selectedDbProvider].Hide();
+                }
+
+                _selectedDbProvider = (DbProviders) comboBoxDbProvider.SelectedItem;
+                tableLayoutPanelConnectionFieldsRoot.SetRow(_containersMap[_selectedDbProvider], 1);
+                _containersMap[_selectedDbProvider].Show();
+                _isDbProviderSet = true;
+            }
         }
 
-        private void ShowCompatibleFields(DbProviders dbProvider)
+        private void buttonTestConnection_Click(object sender, EventArgs e)
         {
-            switch (dbProvider)
+            switch (_selectedDbProvider)
             {
                 case DbProviders.SQLite:
                     {
-                        ShowFieldsCompatibleWithSQLite();
+                        ConnectionInfo = new SQLiteConnectionBaseInfo(textBoxFileSource.Text);
                         break;
                     }
                 case DbProviders.PosgreSQL:
                     {
-                        ShowFieldsCompatibleWithPostgreSQL();
+                        ConnectionInfo = new PosgreSQLConnectionBaseInfo(
+                            textBoxHost.Text,
+                            textBoxPort.Text,
+                            textBoxUsername.Text,
+                            textBoxPassword.Text
+                            );
                         break;
                     }
                 default:
                     {
-                        HideProviderSpecificFields();
+                        MessageBox.Show($"Database provider {_selectedDbProvider} is not implemented");
                         break;
                     }
             }
+
+            ConnectionChanged?.Invoke(ConnectionInfo);
         }
 
-        private void HideProviderSpecificFields()
+        private void buttonSaveAndClose_Click(object sender, EventArgs e)
         {
-
+            //Close();
         }
 
-        private void ShowFieldsCompatibleWithSQLite()
+        private void buttonSelectFileSource_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void ShowFieldsCompatibleWithPostgreSQL()
-        {
-
-        }
-
-        private void comboBoxProvider_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            if (comboBoxDbProvider.SelectedValue != null)
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "SQLite database file|*.db";
+            var dialogResult = fileDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
             {
-                _selectedDbProvider = (DbProviders) comboBoxDbProvider.SelectedValue;
-            }
-        }
-
-        private void ShowAvailableFields<TConnectionInfo>() where TConnectionInfo : IConnectionInfo
-        {
-            Type connectionInfoType = typeof(TConnectionInfo);
-
-            if (connectionInfoType.IsAssignableFrom(typeof(SQLiteConnectionBaseInfo)))
-            {
-
-            }
-
-            if (connectionInfoType.IsAssignableFrom(typeof(PosgreSQLConnectionBaseInfo)))
-            {
-
+                textBoxFileSource.Text = fileDialog.FileName;
             }
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EmployeeSourcebook.DbConnection
+﻿namespace EmployeeSourcebook.DbConnection
 {
     internal class PosgreSQLConnectionBaseInfo : IPostgreSQLConnectionBaseInfo
     {
@@ -14,5 +8,15 @@ namespace EmployeeSourcebook.DbConnection
         public string Password { get; set; } = string.Empty;
 
         public virtual string ConnectionString { get; set; } = string.Empty;
+
+        public PosgreSQLConnectionBaseInfo(string host, string port, string username, string password)
+        {
+            Host = host;
+            Port = port;
+            Username = username;
+            Password = password;
+
+            ConnectionString = string.Concat(host, port, username, password);
+        }
     }
 }

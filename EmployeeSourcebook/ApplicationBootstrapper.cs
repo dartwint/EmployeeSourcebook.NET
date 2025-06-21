@@ -19,10 +19,13 @@ namespace EmployeeSourcebook
             var formConnection = new FormBaseFactory<FormConnection>().Create();
             var formSettings = new FormBaseFactory<FormSettings>().Create();
 
+            var connectionController = new ConnectionController(new ConnectionMonitor(), formConnection);
+
             var mainController = new MainFormController(
                 _mainForm,
                 formConnection,
-                formSettings
+                formSettings,
+                connectionController
                 );
         }
 

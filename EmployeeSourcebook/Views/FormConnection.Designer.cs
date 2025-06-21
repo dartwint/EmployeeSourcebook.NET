@@ -33,6 +33,8 @@
             labelConnectionStatus = new Label();
             buttonTestConnection = new Button();
             panelRoot = new Panel();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            tableLayoutPanelRoot = new TableLayoutPanel();
             tableLayoutPanelConnectionFieldsRoot = new TableLayoutPanel();
             panelProvider = new Panel();
             tableLayoutPanelProviderChoose = new TableLayoutPanel();
@@ -58,8 +60,9 @@
             textBoxPort = new TextBox();
             textBoxUsername = new TextBox();
             textBoxPassword = new TextBox();
-            tableLayoutPanelRoot = new TableLayoutPanel();
             panelRoot.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
+            tableLayoutPanelRoot.SuspendLayout();
             tableLayoutPanelConnectionFieldsRoot.SuspendLayout();
             panelProvider.SuspendLayout();
             tableLayoutPanelProviderChoose.SuspendLayout();
@@ -67,20 +70,20 @@
             tableLayoutPanelProviderSpecificSQLite.SuspendLayout();
             panelPostgreSQL.SuspendLayout();
             tableLayoutPanelProviderSpecificPostgreSQL.SuspendLayout();
-            tableLayoutPanelRoot.SuspendLayout();
             SuspendLayout();
             // 
             // buttonSaveAndClose
             // 
-            buttonSaveAndClose.Anchor = AnchorStyles.None;
+            buttonSaveAndClose.Anchor = AnchorStyles.Right;
             buttonSaveAndClose.BackColor = SystemColors.GradientActiveCaption;
             buttonSaveAndClose.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  204);
-            buttonSaveAndClose.Location = new Point(407, 3);
+            buttonSaveAndClose.Location = new Point(555, 3);
             buttonSaveAndClose.Name = "buttonSaveAndClose";
             buttonSaveAndClose.Size = new Size(192, 48);
             buttonSaveAndClose.TabIndex = 5;
             buttonSaveAndClose.Text = "Save and close";
             buttonSaveAndClose.UseVisualStyleBackColor = false;
+            buttonSaveAndClose.Click += buttonSaveAndClose_Click;
             // 
             // labelConnectionStatusTitle
             // 
@@ -89,7 +92,7 @@
             labelConnectionStatusTitle.Font = new Font("Segoe UI", 12F);
             labelConnectionStatusTitle.Location = new Point(3, 16);
             labelConnectionStatusTitle.Name = "labelConnectionStatusTitle";
-            labelConnectionStatusTitle.Size = new Size(154, 21);
+            labelConnectionStatusTitle.Size = new Size(188, 21);
             labelConnectionStatusTitle.TabIndex = 6;
             labelConnectionStatusTitle.Text = "Connection status:";
             labelConnectionStatusTitle.TextAlign = ContentAlignment.MiddleCenter;
@@ -100,9 +103,9 @@
             labelConnectionStatus.AutoSize = true;
             labelConnectionStatus.BackColor = SystemColors.Info;
             labelConnectionStatus.Font = new Font("Segoe UI", 12F);
-            labelConnectionStatus.Location = new Point(163, 16);
+            labelConnectionStatus.Location = new Point(197, 16);
             labelConnectionStatus.Name = "labelConnectionStatus";
-            labelConnectionStatus.Size = new Size(84, 21);
+            labelConnectionStatus.Size = new Size(103, 21);
             labelConnectionStatus.TabIndex = 7;
             labelConnectionStatus.Text = "none";
             labelConnectionStatus.TextAlign = ContentAlignment.MiddleCenter;
@@ -111,57 +114,100 @@
             // 
             buttonTestConnection.Anchor = AnchorStyles.None;
             buttonTestConnection.BackColor = SystemColors.ButtonHighlight;
-            buttonTestConnection.Location = new Point(255, 11);
+            buttonTestConnection.Location = new Point(323, 11);
             buttonTestConnection.Margin = new Padding(2);
             buttonTestConnection.Name = "buttonTestConnection";
             buttonTestConnection.Size = new Size(128, 31);
             buttonTestConnection.TabIndex = 8;
             buttonTestConnection.Text = "Test connection";
             buttonTestConnection.UseVisualStyleBackColor = false;
+            buttonTestConnection.Click += buttonTestConnection_Click;
             // 
             // panelRoot
             // 
             panelRoot.AutoScroll = true;
             panelRoot.BackColor = SystemColors.Info;
-            panelRoot.Controls.Add(tableLayoutPanelConnectionFieldsRoot);
-            panelRoot.Controls.Add(tableLayoutPanelRoot);
+            panelRoot.Controls.Add(flowLayoutPanel1);
             panelRoot.Dock = DockStyle.Fill;
             panelRoot.Location = new Point(0, 0);
             panelRoot.Name = "panelRoot";
-            panelRoot.Size = new Size(727, 662);
+            panelRoot.Size = new Size(780, 638);
             panelRoot.TabIndex = 7;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            flowLayoutPanel1.Controls.Add(tableLayoutPanelRoot);
+            flowLayoutPanel1.Controls.Add(tableLayoutPanelConnectionFieldsRoot);
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.Location = new Point(0, 0);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(780, 638);
+            flowLayoutPanel1.TabIndex = 10;
+            flowLayoutPanel1.WrapContents = false;
+            // 
+            // tableLayoutPanelRoot
+            // 
+            tableLayoutPanelRoot.AutoScroll = true;
+            tableLayoutPanelRoot.ColumnCount = 4;
+            tableLayoutPanelRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25.8802814F));
+            tableLayoutPanelRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.6126757F));
+            tableLayoutPanelRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.5352116F));
+            tableLayoutPanelRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36.7957764F));
+            tableLayoutPanelRoot.Controls.Add(buttonSaveAndClose, 3, 0);
+            tableLayoutPanelRoot.Controls.Add(buttonTestConnection, 2, 0);
+            tableLayoutPanelRoot.Controls.Add(labelConnectionStatus, 1, 0);
+            tableLayoutPanelRoot.Controls.Add(labelConnectionStatusTitle, 0, 0);
+            tableLayoutPanelRoot.Dock = DockStyle.Fill;
+            tableLayoutPanelRoot.Location = new Point(3, 3);
+            tableLayoutPanelRoot.Name = "tableLayoutPanelRoot";
+            tableLayoutPanelRoot.RowCount = 1;
+            tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanelRoot.Size = new Size(750, 54);
+            tableLayoutPanelRoot.TabIndex = 7;
             // 
             // tableLayoutPanelConnectionFieldsRoot
             // 
+            tableLayoutPanelConnectionFieldsRoot.AutoScroll = true;
+            tableLayoutPanelConnectionFieldsRoot.AutoSize = true;
+            tableLayoutPanelConnectionFieldsRoot.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tableLayoutPanelConnectionFieldsRoot.ColumnCount = 1;
             tableLayoutPanelConnectionFieldsRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanelConnectionFieldsRoot.Controls.Add(panelProvider, 0, 0);
             tableLayoutPanelConnectionFieldsRoot.Controls.Add(panelSQLite, 0, 1);
             tableLayoutPanelConnectionFieldsRoot.Controls.Add(panelPostgreSQL, 0, 2);
-            tableLayoutPanelConnectionFieldsRoot.Location = new Point(12, 75);
+            tableLayoutPanelConnectionFieldsRoot.Dock = DockStyle.Fill;
+            tableLayoutPanelConnectionFieldsRoot.Location = new Point(3, 63);
             tableLayoutPanelConnectionFieldsRoot.Name = "tableLayoutPanelConnectionFieldsRoot";
             tableLayoutPanelConnectionFieldsRoot.RowCount = 3;
-            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 463F));
-            tableLayoutPanelConnectionFieldsRoot.Size = new Size(618, 575);
+            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 44.5652161F));
+            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 55.4347839F));
+            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 482F));
+            tableLayoutPanelConnectionFieldsRoot.Size = new Size(750, 567);
             tableLayoutPanelConnectionFieldsRoot.TabIndex = 9;
             // 
             // panelProvider
             // 
+            panelProvider.AutoSize = true;
+            panelProvider.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelProvider.BorderStyle = BorderStyle.FixedSingle;
             panelProvider.Controls.Add(tableLayoutPanelProviderChoose);
             panelProvider.Dock = DockStyle.Fill;
             panelProvider.Location = new Point(3, 3);
             panelProvider.Name = "panelProvider";
-            panelProvider.Size = new Size(612, 50);
+            panelProvider.Size = new Size(744, 31);
             panelProvider.TabIndex = 10;
             // 
             // tableLayoutPanelProviderChoose
             // 
+            tableLayoutPanelProviderChoose.AutoSize = true;
             tableLayoutPanelProviderChoose.ColumnCount = 2;
-            tableLayoutPanelProviderChoose.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17.21312F));
-            tableLayoutPanelProviderChoose.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 82.78688F));
+            tableLayoutPanelProviderChoose.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.5845642F));
+            tableLayoutPanelProviderChoose.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 83.4154358F));
             tableLayoutPanelProviderChoose.Controls.Add(labelProviderChoose, 0, 0);
             tableLayoutPanelProviderChoose.Controls.Add(comboBoxDbProvider, 1, 0);
             tableLayoutPanelProviderChoose.Dock = DockStyle.Fill;
@@ -169,7 +215,7 @@
             tableLayoutPanelProviderChoose.Name = "tableLayoutPanelProviderChoose";
             tableLayoutPanelProviderChoose.RowCount = 1;
             tableLayoutPanelProviderChoose.RowStyles.Add(new RowStyle());
-            tableLayoutPanelProviderChoose.Size = new Size(610, 48);
+            tableLayoutPanelProviderChoose.Size = new Size(742, 29);
             tableLayoutPanelProviderChoose.TabIndex = 9;
             // 
             // labelProviderChoose
@@ -177,7 +223,7 @@
             labelProviderChoose.Anchor = AnchorStyles.Left;
             labelProviderChoose.AutoSize = true;
             labelProviderChoose.Font = new Font("Segoe UI", 11.25F);
-            labelProviderChoose.Location = new Point(3, 14);
+            labelProviderChoose.Location = new Point(3, 4);
             labelProviderChoose.Name = "labelProviderChoose";
             labelProviderChoose.Size = new Size(64, 20);
             labelProviderChoose.TabIndex = 11;
@@ -187,27 +233,32 @@
             // comboBoxDbProvider
             // 
             comboBoxDbProvider.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
+            comboBoxDbProvider.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxDbProvider.FormattingEnabled = true;
-            comboBoxDbProvider.Location = new Point(108, 12);
+            comboBoxDbProvider.Location = new Point(126, 3);
             comboBoxDbProvider.Name = "comboBoxDbProvider";
-            comboBoxDbProvider.Size = new Size(499, 23);
+            comboBoxDbProvider.Size = new Size(613, 23);
             comboBoxDbProvider.TabIndex = 12;
+            comboBoxDbProvider.SelectionChangeCommitted += comboBoxcomboBoxDbProvider_SelectionChangeCommitted;
             // 
             // panelSQLite
             // 
+            panelSQLite.AutoSize = true;
+            panelSQLite.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelSQLite.BorderStyle = BorderStyle.FixedSingle;
             panelSQLite.Controls.Add(tableLayoutPanelProviderSpecificSQLite);
             panelSQLite.Dock = DockStyle.Fill;
-            panelSQLite.Location = new Point(3, 59);
+            panelSQLite.Location = new Point(3, 40);
             panelSQLite.Name = "panelSQLite";
-            panelSQLite.Size = new Size(612, 50);
+            panelSQLite.Size = new Size(744, 41);
             panelSQLite.TabIndex = 8;
             // 
             // tableLayoutPanelProviderSpecificSQLite
             // 
+            tableLayoutPanelProviderSpecificSQLite.AutoSize = true;
             tableLayoutPanelProviderSpecificSQLite.ColumnCount = 4;
-            tableLayoutPanelProviderSpecificSQLite.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.4678383F));
-            tableLayoutPanelProviderSpecificSQLite.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 79.5321655F));
+            tableLayoutPanelProviderSpecificSQLite.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 19.61165F));
+            tableLayoutPanelProviderSpecificSQLite.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80.38835F));
             tableLayoutPanelProviderSpecificSQLite.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 76F));
             tableLayoutPanelProviderSpecificSQLite.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 18F));
             tableLayoutPanelProviderSpecificSQLite.Controls.Add(labelDbSource, 0, 0);
@@ -219,7 +270,7 @@
             tableLayoutPanelProviderSpecificSQLite.Name = "tableLayoutPanelProviderSpecificSQLite";
             tableLayoutPanelProviderSpecificSQLite.RowCount = 1;
             tableLayoutPanelProviderSpecificSQLite.RowStyles.Add(new RowStyle());
-            tableLayoutPanelProviderSpecificSQLite.Size = new Size(610, 48);
+            tableLayoutPanelProviderSpecificSQLite.Size = new Size(742, 39);
             tableLayoutPanelProviderSpecificSQLite.TabIndex = 9;
             // 
             // labelDbSource
@@ -227,7 +278,7 @@
             labelDbSource.Anchor = AnchorStyles.Left;
             labelDbSource.AutoSize = true;
             labelDbSource.Font = new Font("Segoe UI", 11.25F);
-            labelDbSource.Location = new Point(3, 14);
+            labelDbSource.Location = new Point(3, 9);
             labelDbSource.Name = "labelDbSource";
             labelDbSource.Size = new Size(79, 20);
             labelDbSource.TabIndex = 11;
@@ -240,12 +291,12 @@
             textBoxFileSource.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
             textBoxFileSource.BackColor = SystemColors.ButtonHighlight;
             textBoxFileSource.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point,  204);
-            textBoxFileSource.Location = new Point(108, 12);
+            textBoxFileSource.Location = new Point(130, 8);
             textBoxFileSource.Name = "textBoxFileSource";
+            textBoxFileSource.PlaceholderText = "Drop or select SQLite Database file";
             textBoxFileSource.ReadOnly = true;
-            textBoxFileSource.Size = new Size(404, 23);
+            textBoxFileSource.Size = new Size(514, 23);
             textBoxFileSource.TabIndex = 12;
-            textBoxFileSource.Text = "Drop or select SQLite Database file";
             textBoxFileSource.TextAlign = HorizontalAlignment.Center;
             // 
             // buttonResetFileSource
@@ -256,34 +307,38 @@
             buttonResetFileSource.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetFileSource.FlatAppearance.BorderSize = 0;
             buttonResetFileSource.FlatStyle = FlatStyle.Flat;
-            buttonResetFileSource.Location = new Point(594, 12);
+            buttonResetFileSource.Location = new Point(726, 8);
             buttonResetFileSource.Name = "buttonResetFileSource";
-            buttonResetFileSource.Size = new Size(13, 23);
+            buttonResetFileSource.Size = new Size(12, 23);
             buttonResetFileSource.TabIndex = 10;
             buttonResetFileSource.UseVisualStyleBackColor = false;
             // 
             // buttonSelectFileSource
             // 
             buttonSelectFileSource.Anchor = AnchorStyles.None;
-            buttonSelectFileSource.Location = new Point(518, 7);
+            buttonSelectFileSource.Location = new Point(650, 3);
             buttonSelectFileSource.Name = "buttonSelectFileSource";
             buttonSelectFileSource.Size = new Size(70, 33);
             buttonSelectFileSource.TabIndex = 13;
             buttonSelectFileSource.Text = "Select file";
             buttonSelectFileSource.UseVisualStyleBackColor = true;
+            buttonSelectFileSource.Click += buttonSelectFileSource_Click;
             // 
             // panelPostgreSQL
             // 
+            panelPostgreSQL.AutoSize = true;
+            panelPostgreSQL.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelPostgreSQL.BorderStyle = BorderStyle.FixedSingle;
             panelPostgreSQL.Controls.Add(tableLayoutPanelProviderSpecificPostgreSQL);
-            panelPostgreSQL.Dock = DockStyle.Fill;
-            panelPostgreSQL.Location = new Point(3, 115);
+            panelPostgreSQL.Dock = DockStyle.Top;
+            panelPostgreSQL.Location = new Point(3, 87);
             panelPostgreSQL.Name = "panelPostgreSQL";
-            panelPostgreSQL.Size = new Size(612, 457);
+            panelPostgreSQL.Size = new Size(744, 118);
             panelPostgreSQL.TabIndex = 11;
             // 
             // tableLayoutPanelProviderSpecificPostgreSQL
             // 
+            tableLayoutPanelProviderSpecificPostgreSQL.AutoSize = true;
             tableLayoutPanelProviderSpecificPostgreSQL.ColumnCount = 3;
             tableLayoutPanelProviderSpecificPostgreSQL.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17.21312F));
             tableLayoutPanelProviderSpecificPostgreSQL.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 82.78688F));
@@ -308,7 +363,7 @@
             tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle());
             tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle());
             tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle());
-            tableLayoutPanelProviderSpecificPostgreSQL.Size = new Size(610, 455);
+            tableLayoutPanelProviderSpecificPostgreSQL.Size = new Size(742, 116);
             tableLayoutPanelProviderSpecificPostgreSQL.TabIndex = 9;
             // 
             // buttonResetPort
@@ -319,7 +374,7 @@
             buttonResetPort.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetPort.FlatAppearance.BorderSize = 0;
             buttonResetPort.FlatStyle = FlatStyle.Flat;
-            buttonResetPort.Location = new Point(593, 32);
+            buttonResetPort.Location = new Point(725, 32);
             buttonResetPort.Name = "buttonResetPort";
             buttonResetPort.Size = new Size(13, 23);
             buttonResetPort.TabIndex = 11;
@@ -333,7 +388,7 @@
             buttonResetHost.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetHost.FlatAppearance.BorderSize = 0;
             buttonResetHost.FlatStyle = FlatStyle.Flat;
-            buttonResetHost.Location = new Point(593, 3);
+            buttonResetHost.Location = new Point(725, 3);
             buttonResetHost.Name = "buttonResetHost";
             buttonResetHost.Size = new Size(13, 23);
             buttonResetHost.TabIndex = 11;
@@ -378,7 +433,7 @@
             labelPassword.Anchor = AnchorStyles.Left;
             labelPassword.AutoSize = true;
             labelPassword.Font = new Font("Segoe UI", 11.25F);
-            labelPassword.Location = new Point(3, 261);
+            labelPassword.Location = new Point(3, 91);
             labelPassword.Name = "labelPassword";
             labelPassword.Size = new Size(70, 20);
             labelPassword.TabIndex = 14;
@@ -392,7 +447,7 @@
             buttonResetUsername.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetUsername.FlatAppearance.BorderSize = 0;
             buttonResetUsername.FlatStyle = FlatStyle.Flat;
-            buttonResetUsername.Location = new Point(593, 61);
+            buttonResetUsername.Location = new Point(725, 61);
             buttonResetUsername.Name = "buttonResetUsername";
             buttonResetUsername.Size = new Size(13, 23);
             buttonResetUsername.TabIndex = 15;
@@ -406,7 +461,7 @@
             buttonResetPassword.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetPassword.FlatAppearance.BorderSize = 0;
             buttonResetPassword.FlatStyle = FlatStyle.Flat;
-            buttonResetPassword.Location = new Point(593, 259);
+            buttonResetPassword.Location = new Point(725, 90);
             buttonResetPassword.Name = "buttonResetPassword";
             buttonResetPassword.Size = new Size(13, 23);
             buttonResetPassword.TabIndex = 16;
@@ -415,77 +470,62 @@
             // textBoxHost
             // 
             textBoxHost.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
-            textBoxHost.Location = new Point(104, 3);
+            textBoxHost.Location = new Point(127, 3);
             textBoxHost.Name = "textBoxHost";
-            textBoxHost.Size = new Size(482, 23);
+            textBoxHost.Size = new Size(591, 23);
             textBoxHost.TabIndex = 17;
             // 
             // textBoxPort
             // 
             textBoxPort.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
-            textBoxPort.Location = new Point(104, 32);
+            textBoxPort.Location = new Point(127, 32);
             textBoxPort.Name = "textBoxPort";
-            textBoxPort.Size = new Size(482, 23);
+            textBoxPort.Size = new Size(591, 23);
             textBoxPort.TabIndex = 18;
             // 
             // textBoxUsername
             // 
             textBoxUsername.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
-            textBoxUsername.Location = new Point(104, 61);
+            textBoxUsername.Location = new Point(127, 61);
             textBoxUsername.Name = "textBoxUsername";
-            textBoxUsername.Size = new Size(482, 23);
+            textBoxUsername.Size = new Size(591, 23);
             textBoxUsername.TabIndex = 19;
             // 
             // textBoxPassword
             // 
             textBoxPassword.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
-            textBoxPassword.Location = new Point(104, 259);
+            textBoxPassword.Location = new Point(127, 90);
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(482, 23);
+            textBoxPassword.Size = new Size(591, 23);
             textBoxPassword.TabIndex = 20;
-            // 
-            // tableLayoutPanelRoot
-            // 
-            tableLayoutPanelRoot.AutoScroll = true;
-            tableLayoutPanelRoot.ColumnCount = 4;
-            tableLayoutPanelRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25.8802814F));
-            tableLayoutPanelRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14.6126757F));
-            tableLayoutPanelRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.5352116F));
-            tableLayoutPanelRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36.7957764F));
-            tableLayoutPanelRoot.Controls.Add(buttonSaveAndClose, 3, 0);
-            tableLayoutPanelRoot.Controls.Add(buttonTestConnection, 2, 0);
-            tableLayoutPanelRoot.Controls.Add(labelConnectionStatus, 1, 0);
-            tableLayoutPanelRoot.Controls.Add(labelConnectionStatusTitle, 0, 0);
-            tableLayoutPanelRoot.Location = new Point(12, 12);
-            tableLayoutPanelRoot.Name = "tableLayoutPanelRoot";
-            tableLayoutPanelRoot.RowCount = 1;
-            tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanelRoot.Size = new Size(618, 54);
-            tableLayoutPanelRoot.TabIndex = 7;
             // 
             // FormConnection
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(727, 662);
+            ClientSize = new Size(780, 638);
             Controls.Add(panelRoot);
             Name = "FormConnection";
             Text = "Connection settings";
             panelRoot.ResumeLayout(false);
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
+            tableLayoutPanelRoot.ResumeLayout(false);
+            tableLayoutPanelRoot.PerformLayout();
             tableLayoutPanelConnectionFieldsRoot.ResumeLayout(false);
+            tableLayoutPanelConnectionFieldsRoot.PerformLayout();
             panelProvider.ResumeLayout(false);
+            panelProvider.PerformLayout();
             tableLayoutPanelProviderChoose.ResumeLayout(false);
             tableLayoutPanelProviderChoose.PerformLayout();
             panelSQLite.ResumeLayout(false);
+            panelSQLite.PerformLayout();
             tableLayoutPanelProviderSpecificSQLite.ResumeLayout(false);
             tableLayoutPanelProviderSpecificSQLite.PerformLayout();
             panelPostgreSQL.ResumeLayout(false);
+            panelPostgreSQL.PerformLayout();
             tableLayoutPanelProviderSpecificPostgreSQL.ResumeLayout(false);
             tableLayoutPanelProviderSpecificPostgreSQL.PerformLayout();
-            tableLayoutPanelRoot.ResumeLayout(false);
-            tableLayoutPanelRoot.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -521,5 +561,6 @@
         private TextBox textBoxPort;
         private TextBox textBoxUsername;
         private TextBox textBoxPassword;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

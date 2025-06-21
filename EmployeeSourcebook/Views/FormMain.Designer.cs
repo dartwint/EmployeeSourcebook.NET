@@ -46,6 +46,8 @@
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
+            labelLastConnectionStatusUpdateAt = new Label();
+            labelLastConnectionStatusUpdateTime = new Label();
             flowLayoutPanelFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) dataGridViewEmployees).BeginInit();
             flowLayoutPanelMenuContainer.SuspendLayout();
@@ -62,6 +64,8 @@
             flowLayoutPanelFooter.AutoSize = true;
             flowLayoutPanelFooter.Controls.Add(labelConnectionStatusHeader);
             flowLayoutPanelFooter.Controls.Add(labelConnectionStatus);
+            flowLayoutPanelFooter.Controls.Add(labelLastConnectionStatusUpdateAt);
+            flowLayoutPanelFooter.Controls.Add(labelLastConnectionStatusUpdateTime);
             flowLayoutPanelFooter.Location = new Point(0, 435);
             flowLayoutPanelFooter.Name = "flowLayoutPanelFooter";
             flowLayoutPanelFooter.Size = new Size(805, 15);
@@ -75,6 +79,7 @@
             labelConnectionStatusHeader.Size = new Size(106, 15);
             labelConnectionStatusHeader.TabIndex = 1;
             labelConnectionStatusHeader.Text = "Connection status:";
+            labelConnectionStatusHeader.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // labelConnectionStatus
             // 
@@ -84,6 +89,7 @@
             labelConnectionStatus.Size = new Size(45, 15);
             labelConnectionStatus.TabIndex = 1;
             labelConnectionStatus.Text = "STATUS";
+            labelConnectionStatus.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // dataGridViewEmployees
             // 
@@ -199,7 +205,7 @@
             panelRootContainer.Controls.Add(flowLayoutPanelFooter);
             panelRootContainer.Dock = DockStyle.Fill;
             panelRootContainer.Location = new Point(0, 0);
-            panelRootContainer.Margin = new Padding(2, 2, 2, 2);
+            panelRootContainer.Margin = new Padding(2);
             panelRootContainer.Name = "panelRootContainer";
             panelRootContainer.Size = new Size(805, 450);
             panelRootContainer.TabIndex = 9;
@@ -207,7 +213,7 @@
             // button4
             // 
             button4.Location = new Point(140, 187);
-            button4.Margin = new Padding(2, 2, 2, 2);
+            button4.Margin = new Padding(2);
             button4.Name = "button4";
             button4.Size = new Size(78, 20);
             button4.TabIndex = 12;
@@ -217,7 +223,7 @@
             // button3
             // 
             button3.Location = new Point(141, 152);
-            button3.Margin = new Padding(2, 2, 2, 2);
+            button3.Margin = new Padding(2);
             button3.Name = "button3";
             button3.Size = new Size(78, 20);
             button3.TabIndex = 11;
@@ -227,7 +233,7 @@
             // button2
             // 
             button2.Location = new Point(301, 146);
-            button2.Margin = new Padding(2, 2, 2, 2);
+            button2.Margin = new Padding(2);
             button2.Name = "button2";
             button2.Size = new Size(78, 20);
             button2.TabIndex = 10;
@@ -237,12 +243,31 @@
             // button1
             // 
             button1.Location = new Point(653, 143);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(98, 26);
             button1.TabIndex = 9;
             button1.Text = "Refresh data";
             button1.UseVisualStyleBackColor = true;
+            // 
+            // labelLastConnectionStatusUpdateAt
+            // 
+            labelLastConnectionStatusUpdateAt.AutoSize = true;
+            labelLastConnectionStatusUpdateAt.Location = new Point(166, 0);
+            labelLastConnectionStatusUpdateAt.Name = "labelLastConnectionStatusUpdateAt";
+            labelLastConnectionStatusUpdateAt.Size = new Size(65, 15);
+            labelLastConnectionStatusUpdateAt.TabIndex = 2;
+            labelLastConnectionStatusUpdateAt.Text = "Updatet at:";
+            labelLastConnectionStatusUpdateAt.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // labelLastConnectionStatusUpdateTime
+            // 
+            labelLastConnectionStatusUpdateTime.AutoSize = true;
+            labelLastConnectionStatusUpdateTime.Location = new Point(237, 0);
+            labelLastConnectionStatusUpdateTime.Name = "labelLastConnectionStatusUpdateTime";
+            labelLastConnectionStatusUpdateTime.Size = new Size(33, 15);
+            labelLastConnectionStatusUpdateTime.TabIndex = 3;
+            labelLastConnectionStatusUpdateTime.Text = "TIME";
             // 
             // FormMain
             // 
@@ -289,5 +314,7 @@
         private Button button1;
         private Button button4;
         private Button button3;
+        private Label labelLastConnectionStatusUpdateAt;
+        private Label labelLastConnectionStatusUpdateTime;
     }
 }

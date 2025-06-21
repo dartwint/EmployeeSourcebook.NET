@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeSourcebook.DbConnection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace EmployeeSourcebook.Domain
 {
     internal interface IConnectionView
     {
-
+        IConnectionInfo? ConnectionInfo { get; set; }
     }
 }
