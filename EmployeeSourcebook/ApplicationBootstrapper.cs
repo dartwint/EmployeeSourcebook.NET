@@ -17,10 +17,12 @@ namespace EmployeeSourcebook
         {
             _mainForm = new FormBaseFactory<FormMain>().Create();
             var formConnection = new FormBaseFactory<FormConnection>().Create();
+            var formSettings = new FormBaseFactory<FormSettings>().Create();
 
             var mainController = new MainFormController(
                 _mainForm,
-                formConnection
+                formConnection,
+                formSettings
                 );
         }
 

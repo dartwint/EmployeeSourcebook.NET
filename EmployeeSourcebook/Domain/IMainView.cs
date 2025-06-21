@@ -9,7 +9,7 @@ namespace EmployeeSourcebook.Domain
     public interface IMainView
     {
         event Action? ButtonConnectionSettingsClick;
-        event Action<Button>? ButtonNextTableClick;
-        event Action<Button>? ButtonPreviousTableClick;
+        //event Action<Button>? ButtonNextTableClick;
+        //event Action<Button>? ButtonPreviousTableClick;
     }
 }

@@ -37,59 +37,65 @@
             connectionToolStripMenuItem = new ToolStripMenuItem();
             settingsToolStripMenuItem = new ToolStripMenuItem();
             buttonPrintEmployeesFromDepartment = new Button();
-            flowLayoutPanelDbTables = new FlowLayoutPanel();
             panelTablesTabsContainer = new Panel();
-            tableLayoutPanelTabsControls = new TableLayoutPanel();
-            buttonNextTable = new Button();
-            buttonPreviousTable = new Button();
+            flowLayoutPanelDbTables = new FlowLayoutPanel();
             groupBoxTabsTables = new GroupBox();
-            splitter1 = new Splitter();
-            tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanelTablesTabs = new TableLayoutPanel();
+            panelRootContainer = new Panel();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
             flowLayoutPanelFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) dataGridViewEmployees).BeginInit();
             flowLayoutPanelMenuContainer.SuspendLayout();
             menuStrip.SuspendLayout();
             panelTablesTabsContainer.SuspendLayout();
-            tableLayoutPanelTabsControls.SuspendLayout();
             groupBoxTabsTables.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanelTablesTabs.SuspendLayout();
+            panelRootContainer.SuspendLayout();
             SuspendLayout();
             // 
             // flowLayoutPanelFooter
             // 
+            flowLayoutPanelFooter.Anchor =  AnchorStyles.Bottom | AnchorStyles.Left;
             flowLayoutPanelFooter.AutoSize = true;
             flowLayoutPanelFooter.Controls.Add(labelConnectionStatusHeader);
             flowLayoutPanelFooter.Controls.Add(labelConnectionStatus);
-            flowLayoutPanelFooter.Dock = DockStyle.Bottom;
-            flowLayoutPanelFooter.Location = new Point(0, 435);
+            flowLayoutPanelFooter.Location = new Point(0, 725);
+            flowLayoutPanelFooter.Margin = new Padding(4, 5, 4, 5);
             flowLayoutPanelFooter.Name = "flowLayoutPanelFooter";
-            flowLayoutPanelFooter.Size = new Size(805, 15);
+            flowLayoutPanelFooter.Size = new Size(1150, 25);
             flowLayoutPanelFooter.TabIndex = 0;
             // 
             // labelConnectionStatusHeader
             // 
             labelConnectionStatusHeader.AutoSize = true;
-            labelConnectionStatusHeader.Location = new Point(3, 0);
+            labelConnectionStatusHeader.Location = new Point(4, 0);
+            labelConnectionStatusHeader.Margin = new Padding(4, 0, 4, 0);
             labelConnectionStatusHeader.Name = "labelConnectionStatusHeader";
-            labelConnectionStatusHeader.Size = new Size(106, 15);
+            labelConnectionStatusHeader.Size = new Size(158, 25);
             labelConnectionStatusHeader.TabIndex = 1;
             labelConnectionStatusHeader.Text = "Connection status:";
             // 
             // labelConnectionStatus
             // 
             labelConnectionStatus.AutoSize = true;
-            labelConnectionStatus.Location = new Point(115, 0);
+            labelConnectionStatus.Location = new Point(170, 0);
+            labelConnectionStatus.Margin = new Padding(4, 0, 4, 0);
             labelConnectionStatus.Name = "labelConnectionStatus";
-            labelConnectionStatus.Size = new Size(45, 15);
+            labelConnectionStatus.Size = new Size(72, 25);
             labelConnectionStatus.TabIndex = 1;
             labelConnectionStatus.Text = "STATUS";
             // 
             // dataGridViewEmployees
             // 
             dataGridViewEmployees.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewEmployees.Location = new Point(223, 155);
+            dataGridViewEmployees.Location = new Point(430, 325);
+            dataGridViewEmployees.Margin = new Padding(4, 5, 4, 5);
             dataGridViewEmployees.Name = "dataGridViewEmployees";
-            dataGridViewEmployees.Size = new Size(485, 234);
+            dataGridViewEmployees.RowHeadersWidth = 62;
+            dataGridViewEmployees.Size = new Size(693, 390);
             dataGridViewEmployees.TabIndex = 1;
             // 
             // flowLayoutPanelMenuContainer
@@ -99,19 +105,22 @@
             flowLayoutPanelMenuContainer.Controls.Add(menuStrip);
             flowLayoutPanelMenuContainer.Dock = DockStyle.Top;
             flowLayoutPanelMenuContainer.Location = new Point(0, 0);
+            flowLayoutPanelMenuContainer.Margin = new Padding(4, 5, 4, 5);
             flowLayoutPanelMenuContainer.Name = "flowLayoutPanelMenuContainer";
-            flowLayoutPanelMenuContainer.Size = new Size(805, 24);
+            flowLayoutPanelMenuContainer.Size = new Size(1150, 35);
             flowLayoutPanelMenuContainer.TabIndex = 2;
             // 
             // menuStrip
             // 
             menuStrip.BackColor = Color.NavajoWhite;
             menuStrip.Dock = DockStyle.Fill;
+            menuStrip.ImageScalingSize = new Size(24, 24);
             menuStrip.Items.AddRange(new ToolStripItem[] { connectionToolStripMenuItem, settingsToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
+            menuStrip.Padding = new Padding(9, 3, 0, 3);
             menuStrip.ShowItemToolTips = true;
-            menuStrip.Size = new Size(150, 24);
+            menuStrip.Size = new Size(401, 35);
             menuStrip.TabIndex = 0;
             menuStrip.Text = "menuStrip";
             // 
@@ -120,7 +129,7 @@
             connectionToolStripMenuItem.AutoToolTip = true;
             connectionToolStripMenuItem.BackColor = Color.Transparent;
             connectionToolStripMenuItem.Name = "connectionToolStripMenuItem";
-            connectionToolStripMenuItem.Size = new Size(81, 20);
+            connectionToolStripMenuItem.Size = new Size(118, 29);
             connectionToolStripMenuItem.Text = "Connection";
             connectionToolStripMenuItem.ToolTipText = "Open connection settings window";
             connectionToolStripMenuItem.Click += connectionToolStripMenuItem_Click;
@@ -128,124 +137,128 @@
             // settingsToolStripMenuItem
             // 
             settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            settingsToolStripMenuItem.Size = new Size(61, 20);
+            settingsToolStripMenuItem.Size = new Size(92, 29);
             settingsToolStripMenuItem.Text = "Settings";
+            settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
             // 
             // buttonPrintEmployeesFromDepartment
             // 
-            buttonPrintEmployeesFromDepartment.Location = new Point(25, 300);
+            buttonPrintEmployeesFromDepartment.Location = new Point(36, 500);
+            buttonPrintEmployeesFromDepartment.Margin = new Padding(4, 5, 4, 5);
             buttonPrintEmployeesFromDepartment.Name = "buttonPrintEmployeesFromDepartment";
-            buttonPrintEmployeesFromDepartment.Size = new Size(107, 46);
+            buttonPrintEmployeesFromDepartment.Size = new Size(153, 77);
             buttonPrintEmployeesFromDepartment.TabIndex = 3;
             buttonPrintEmployeesFromDepartment.Text = "Print emps from department";
             buttonPrintEmployeesFromDepartment.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanelDbTables
-            // 
-            flowLayoutPanelDbTables.Dock = DockStyle.Top;
-            flowLayoutPanelDbTables.Location = new Point(0, 0);
-            flowLayoutPanelDbTables.Name = "flowLayoutPanelDbTables";
-            flowLayoutPanelDbTables.Size = new Size(769, 37);
-            flowLayoutPanelDbTables.TabIndex = 4;
-            flowLayoutPanelDbTables.WrapContents = false;
-            // 
             // panelTablesTabsContainer
             // 
-            panelTablesTabsContainer.Controls.Add(tableLayoutPanelTabsControls);
             panelTablesTabsContainer.Controls.Add(flowLayoutPanelDbTables);
             panelTablesTabsContainer.Dock = DockStyle.Fill;
-            panelTablesTabsContainer.Location = new Point(3, 19);
+            panelTablesTabsContainer.Location = new Point(4, 29);
+            panelTablesTabsContainer.Margin = new Padding(4, 5, 4, 5);
             panelTablesTabsContainer.Name = "panelTablesTabsContainer";
-            panelTablesTabsContainer.Size = new Size(769, 59);
+            panelTablesTabsContainer.Size = new Size(1099, 59);
             panelTablesTabsContainer.TabIndex = 5;
             // 
-            // tableLayoutPanelTabsControls
+            // flowLayoutPanelDbTables
             // 
-            tableLayoutPanelTabsControls.ColumnCount = 2;
-            tableLayoutPanelTabsControls.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanelTabsControls.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanelTabsControls.Controls.Add(buttonNextTable, 1, 0);
-            tableLayoutPanelTabsControls.Controls.Add(buttonPreviousTable, 0, 0);
-            tableLayoutPanelTabsControls.Dock = DockStyle.Left;
-            tableLayoutPanelTabsControls.Location = new Point(0, 37);
-            tableLayoutPanelTabsControls.Margin = new Padding(0);
-            tableLayoutPanelTabsControls.Name = "tableLayoutPanelTabsControls";
-            tableLayoutPanelTabsControls.RowCount = 1;
-            tableLayoutPanelTabsControls.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanelTabsControls.Size = new Size(67, 22);
-            tableLayoutPanelTabsControls.TabIndex = 5;
-            // 
-            // buttonNextTable
-            // 
-            buttonNextTable.Dock = DockStyle.Fill;
-            buttonNextTable.Location = new Point(33, 0);
-            buttonNextTable.Margin = new Padding(0);
-            buttonNextTable.Name = "buttonNextTable";
-            buttonNextTable.Size = new Size(34, 22);
-            buttonNextTable.TabIndex = 1;
-            buttonNextTable.Text = ">";
-            buttonNextTable.UseVisualStyleBackColor = true;
-            buttonNextTable.Click += buttonNextTable_Click;
-            // 
-            // buttonPreviousTable
-            // 
-            buttonPreviousTable.Dock = DockStyle.Fill;
-            buttonPreviousTable.Location = new Point(0, 0);
-            buttonPreviousTable.Margin = new Padding(0);
-            buttonPreviousTable.Name = "buttonPreviousTable";
-            buttonPreviousTable.Size = new Size(33, 22);
-            buttonPreviousTable.TabIndex = 0;
-            buttonPreviousTable.Text = "<";
-            buttonPreviousTable.UseVisualStyleBackColor = true;
-            buttonPreviousTable.Click += buttonPreviousTable_Click;
+            flowLayoutPanelDbTables.Location = new Point(0, 0);
+            flowLayoutPanelDbTables.Margin = new Padding(4, 5, 4, 5);
+            flowLayoutPanelDbTables.Name = "flowLayoutPanelDbTables";
+            flowLayoutPanelDbTables.Size = new Size(1099, 59);
+            flowLayoutPanelDbTables.TabIndex = 4;
+            flowLayoutPanelDbTables.WrapContents = false;
             // 
             // groupBoxTabsTables
             // 
             groupBoxTabsTables.Controls.Add(panelTablesTabsContainer);
-            groupBoxTabsTables.Dock = DockStyle.Top;
-            groupBoxTabsTables.Location = new Point(12, 3);
+            groupBoxTabsTables.Dock = DockStyle.Fill;
+            groupBoxTabsTables.Location = new Point(16, 5);
+            groupBoxTabsTables.Margin = new Padding(4, 5, 4, 5);
             groupBoxTabsTables.Name = "groupBoxTabsTables";
-            groupBoxTabsTables.Size = new Size(775, 81);
+            groupBoxTabsTables.Padding = new Padding(4, 5, 4, 5);
+            groupBoxTabsTables.Size = new Size(1107, 93);
             groupBoxTabsTables.TabIndex = 6;
             groupBoxTabsTables.TabStop = false;
             groupBoxTabsTables.Text = "Tables List";
             // 
-            // splitter1
+            // tableLayoutPanelTablesTabs
             // 
-            splitter1.Dock = DockStyle.Top;
-            splitter1.Location = new Point(0, 24);
-            splitter1.Name = "splitter1";
-            splitter1.Size = new Size(805, 12);
-            splitter1.TabIndex = 7;
-            splitter1.TabStop = false;
+            tableLayoutPanelTablesTabs.ColumnCount = 3;
+            tableLayoutPanelTablesTabs.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1.11801243F));
+            tableLayoutPanelTablesTabs.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 97.01863F));
+            tableLayoutPanelTablesTabs.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1.86335409F));
+            tableLayoutPanelTablesTabs.Controls.Add(groupBoxTabsTables, 1, 0);
+            tableLayoutPanelTablesTabs.Location = new Point(0, 57);
+            tableLayoutPanelTablesTabs.Margin = new Padding(4, 5, 4, 5);
+            tableLayoutPanelTablesTabs.Name = "tableLayoutPanelTablesTabs";
+            tableLayoutPanelTablesTabs.RowCount = 1;
+            tableLayoutPanelTablesTabs.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanelTablesTabs.Size = new Size(1150, 103);
+            tableLayoutPanelTablesTabs.TabIndex = 8;
             // 
-            // tableLayoutPanel1
+            // panelRootContainer
             // 
-            tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1.11801243F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 97.01863F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 1.86335409F));
-            tableLayoutPanel1.Controls.Add(groupBoxTabsTables, 1, 0);
-            tableLayoutPanel1.Dock = DockStyle.Top;
-            tableLayoutPanel1.Location = new Point(0, 36);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(805, 87);
-            tableLayoutPanel1.TabIndex = 8;
+            panelRootContainer.Controls.Add(button4);
+            panelRootContainer.Controls.Add(button3);
+            panelRootContainer.Controls.Add(button2);
+            panelRootContainer.Controls.Add(button1);
+            panelRootContainer.Controls.Add(flowLayoutPanelMenuContainer);
+            panelRootContainer.Controls.Add(dataGridViewEmployees);
+            panelRootContainer.Controls.Add(tableLayoutPanelTablesTabs);
+            panelRootContainer.Controls.Add(buttonPrintEmployeesFromDepartment);
+            panelRootContainer.Controls.Add(flowLayoutPanelFooter);
+            panelRootContainer.Dock = DockStyle.Fill;
+            panelRootContainer.Location = new Point(0, 0);
+            panelRootContainer.Name = "panelRootContainer";
+            panelRootContainer.Size = new Size(1150, 750);
+            panelRootContainer.TabIndex = 9;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(933, 238);
+            button1.Name = "button1";
+            button1.Size = new Size(140, 44);
+            button1.TabIndex = 9;
+            button1.Text = "Refresh data";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(430, 243);
+            button2.Name = "button2";
+            button2.Size = new Size(112, 34);
+            button2.TabIndex = 10;
+            button2.Text = "Create";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(201, 253);
+            button3.Name = "button3";
+            button3.Size = new Size(112, 34);
+            button3.TabIndex = 11;
+            button3.Text = "Filter";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(200, 311);
+            button4.Name = "button4";
+            button4.Size = new Size(112, 34);
+            button4.TabIndex = 12;
+            button4.Text = "Sort";
+            button4.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LemonChiffon;
-            ClientSize = new Size(805, 450);
-            Controls.Add(tableLayoutPanel1);
-            Controls.Add(buttonPrintEmployeesFromDepartment);
-            Controls.Add(splitter1);
-            Controls.Add(flowLayoutPanelMenuContainer);
-            Controls.Add(dataGridViewEmployees);
-            Controls.Add(flowLayoutPanelFooter);
+            ClientSize = new Size(1150, 750);
+            Controls.Add(panelRootContainer);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "FormMain";
             Text = "Employees sourcebook";
             Load += FormMain_Load;
@@ -257,11 +270,11 @@
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
             panelTablesTabsContainer.ResumeLayout(false);
-            tableLayoutPanelTabsControls.ResumeLayout(false);
             groupBoxTabsTables.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanelTablesTabs.ResumeLayout(false);
+            panelRootContainer.ResumeLayout(false);
+            panelRootContainer.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -275,13 +288,14 @@
         private ToolStripMenuItem connectionToolStripMenuItem;
         private ToolStripMenuItem settingsToolStripMenuItem;
         private Button buttonPrintEmployeesFromDepartment;
-        private FlowLayoutPanel flowLayoutPanelDbTables;
         private Panel panelTablesTabsContainer;
-        private TableLayoutPanel tableLayoutPanelTabsControls;
-        private Button buttonNextTable;
-        private Button buttonPreviousTable;
         private GroupBox groupBoxTabsTables;
-        private Splitter splitter1;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanelTablesTabs;
+        private FlowLayoutPanel flowLayoutPanelDbTables;
+        private Panel panelRootContainer;
+        private Button button2;
+        private Button button1;
+        private Button button4;
+        private Button button3;
     }
 }

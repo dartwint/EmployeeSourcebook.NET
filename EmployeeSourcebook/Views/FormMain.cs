@@ -14,13 +14,21 @@ namespace EmployeeSourcebook.Views
     public partial class FormMain : Form, IMainView
     {
         public event Action? ButtonConnectionSettingsClick;
+        public event Action? ButtonSettingsClick;
         public event Action<Button>? ButtonNextTableClick;
         public event Action<Button>? ButtonPreviousTableClick;
+
+        private TableTab? _selectedTableTab = null;
+        private CustomTabControl _tabControl;
+
+        private int _originalTabPanelHeight;
 
         public FormMain()
         {
             InitializeComponent();
-            
+            _tabControl = new CustomTabControl();
+
+            _originalTabPanelHeight = flowLayoutPanelDbTables.Height;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -35,51 +43,64 @@ namespace EmployeeSourcebook.Views
 
         private void AddDummyTabsForDbTables()
         {
-            var buttons = new List<Button>();
+            var buttons = new List<TableTab>();
+            var decorator = new TabButtonDecorator<TableTab>();
+
+            flowLayoutPanelDbTables.WrapContents = false;
+            flowLayoutPanelDbTables.AutoScroll = true;
+            flowLayoutPanelDbTables.HorizontalScroll.Visible = true;
+            flowLayoutPanelDbTables.VerticalScroll.Enabled = false;
+
             for (int i = 0; i < 16; i++)
             {
-                buttons.Add(new Button()
+                var button = new TableTab
                 {
                     AutoSize = false,
                     Text = $"Button{i}",
                     Margin = Padding.Empty,
                     Padding = Padding.Empty,
-                    Height = flowLayoutPanelDbTables.Height -
-                        flowLayoutPanelDbTables.Margin.All - flowLayoutPanelDbTables.Padding.All,
-                    Anchor = AnchorStyles.Left
-                });
-                var size = TextRenderer.MeasureText(buttons[i].Text, buttons[i].Font);
-                size.Width += 15;
-                buttons[i].Width = size.Width;
-                flowLayoutPanelDbTables.Controls.Add(buttons[i]);
+                    FlatStyle = FlatStyle.Flat,
+                    Anchor = AnchorStyles.Left | AnchorStyles.Top,
+                    //Height = _originalTabPanelHeight - SystemInformation.HorizontalScrollBarHeight
+                };
+
+                var size = TextRenderer.MeasureText(button.Text, button.Font);
+                button.Width = size.Width + 15;
+                button.Height = Math.Max(size.Height,
+                    _originalTabPanelHeight - SystemInformation.HorizontalScrollBarHeight);
+
+                decorator.DecorateAsNotSelected(button);
+                button.Click += OnButtonTabClicked;
+                buttons.Add(button);
+
+                flowLayoutPanelDbTables.Controls.Add(button);
             }
 
-            TryHideScroll(flowLayoutPanelDbTables);
+            flowLayoutPanelDbTables.HorizontalScroll.SmallChange = buttons[0].Width;
         }
 
-        private void TryHideScroll(ScrollableControl control, int pixels = 100)
+        private void OnButtonTabClicked(object? sender, EventArgs e)
         {
-            while (flowLayoutPanelDbTables.VerticalScroll.Visible && pixels > 0)
+            if (sender is TableTab tableTab)
             {
-                flowLayoutPanelDbTables.Height += 1;
-                pixels--;
+                if (_selectedTableTab == tableTab)
+                    return;
+
+                var decorator = new TabButtonDecorator<TableTab>();
+
+                if (_selectedTableTab != null)
+                    decorator.DecorateAsNotSelected(_selectedTableTab);
+
+                _selectedTableTab = tableTab;
+                decorator.DecorateAsSelected(_selectedTableTab);
+
+                _tabControl.SelectTab(tableTab);
             }
         }
 
-        private void buttonNextTable_Click(object sender, EventArgs e)
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (sender is Button button)
-            {
-                ButtonNextTableClick?.Invoke(button);
-            }
-        }
-
-        private void buttonPreviousTable_Click(object sender, EventArgs e)
-        {
-            if (sender is Button button)
-            {
-                ButtonPreviousTableClick?.Invoke(button);
-            }
+            ButtonSettingsClick?.Invoke();
         }
     }
 }
