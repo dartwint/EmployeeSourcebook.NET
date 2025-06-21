@@ -22,10 +22,8 @@ namespace EmployeeSourcebook.Views
             InitializeComponent();
 
             var providers = Enum.GetValues(typeof(DbProviders));
-            comboBoxProvider.DataSource = providers;
-            comboBoxProvider.SelectedItem = null;
-
-
+            comboBoxDbProvider.DataSource = providers;
+            comboBoxDbProvider.SelectedItem = null;
         }
 
         public enum DbProviders
@@ -72,9 +70,9 @@ namespace EmployeeSourcebook.Views
 
         private void comboBoxProvider_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (comboBoxProvider.SelectedValue != null)
+            if (comboBoxDbProvider.SelectedValue != null)
             {
-                _selectedDbProvider = (DbProviders) comboBoxProvider.SelectedValue;
+                _selectedDbProvider = (DbProviders) comboBoxDbProvider.SelectedValue;
             }
         }
 
