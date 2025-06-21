@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeSourcebook.Domain;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 
 namespace EmployeeSourcebook.Views
 {
-    public partial class FormConnection : Form
+    public partial class FormConnection : Form, IConnectionView
     {
         public FormConnection()
         {

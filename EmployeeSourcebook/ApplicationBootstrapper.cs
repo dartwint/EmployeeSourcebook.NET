@@ -1,0 +1,32 @@
+﻿using EmployeeSourcebook.Controllers;
+using EmployeeSourcebook.Domain;
+using EmployeeSourcebook.Views;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EmployeeSourcebook
+{
+    internal class ApplicationBootstrapper
+    {
+        private FormMain _mainForm;
+
+        public ApplicationBootstrapper()
+        {
+            _mainForm = new FormBaseFactory<FormMain>().Create();
+            var formConnection = new FormBaseFactory<FormConnection>().Create();
+
+            var mainController = new MainFormController(
+                _mainForm,
+                formConnection
+                );
+        }
+
+        public Form Initialize()
+        {
+            return _mainForm;
+        }
+    }
+}
