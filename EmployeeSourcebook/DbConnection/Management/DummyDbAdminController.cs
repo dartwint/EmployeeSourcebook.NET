@@ -5,15 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmployeeSourcebook.Controllers
+namespace EmployeeSourcebook.DbConnection.Management
 {
-    internal class DummyDbAdminController
+    public class DummyDbAdminController
     {
         private const string _testSQLCommandPath = "SQL queries/SQLite/Test.sql";
         private const string _SQLiteDbPath = "SQLite/EmployeesSourcebook.db";
 
+        //private ConnectionMonitor _connectionMonitor;
+
         public DummyDbAdminController()
         {
+            //_connectionMonitor = new ConnectionMonitor();
+
             if (!File.Exists(_testSQLCommandPath))
             {
                 throw new Exception($"No file at path: {_testSQLCommandPath}");

@@ -1,4 +1,4 @@
-﻿namespace EmployeeSourcebook.DbConnection
+﻿namespace EmployeeSourcebook.DbConnection.Model
 {
     public interface ISQLiteConnectionBaseInfo : IConnectionInfo
     {

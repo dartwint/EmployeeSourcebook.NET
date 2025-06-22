@@ -1,4 +1,6 @@
-﻿using EmployeeSourcebook.DbConnection;
+﻿using EmployeeSourcebook.DbConnection.Management;
+using EmployeeSourcebook.DbConnection.Management.ConnectionChecker;
+using EmployeeSourcebook.DbConnection.Model;
 using EmployeeSourcebook.Views;
 using System;
 using System.Collections.Generic;
@@ -11,15 +13,14 @@ namespace EmployeeSourcebook.Controllers
     internal class ConnectionController
     {
         private FormConnection _formConnection;
-        private ConnectionMonitor _connectionMonitor;
+        private ConnectionMonitor? _connectionMonitor;
 
         private PosgreSQLConnectionBaseInfo _PostgreSQLConnectionDefaultInfo;
         private SQLiteConnectionBaseInfo _SQLiteConnectionDefaultInfo;
 
-        public ConnectionController(ConnectionMonitor connectionMonitor, FormConnection formConnection)
+        public ConnectionController(FormConnection formConnection)
         {
             _formConnection = formConnection;
-            _connectionMonitor = connectionMonitor;
 
             _formConnection.ConnectionChanged += OnConnectionTestRequested;
 
@@ -30,16 +31,36 @@ namespace EmployeeSourcebook.Controllers
                 host: "localhost",
                 port: "5432",
                 username: "postgres",
-                password: "masterkey"
+                password: "masterkey",
+                database: "postgres"
                 );
         }
 
-        private void OnConnectionTestRequested(IConnectionInfo? connectionInfo)
+        private async void OnConnectionTestRequested(IConnectionInfo? connectionInfo)
         {
             if (connectionInfo == null)
                 return;
 
-            MessageBox.Show(connectionInfo.GetConnectionString());
+            if (_connectionMonitor != null && _connectionMonitor.IsRunning)
+            {
+                _connectionMonitor.Stop();
+                 await _connectionMonitor.CheckConnectionOnceAsync();
+            }
+
+            var connectionCheckerFactory = new DbConnectionCheckerFactory();
+            _connectionMonitor = new ConnectionMonitor(
+                connectionCheckerFactory.CreateConnectionChecker(connectionInfo));
+
+            _connectionMonitor.ConnectionAttempt += OnConnectionAttempt;
+
+            _connectionMonitor.Start(new TimeSpan(0, 0, 5));
+
+            //MessageBox.Show(connectionInfo.GetConnectionString());
+        }
+
+        private void OnConnectionAttempt(ConnectionResult connectionResult)
+        {
+
         }
     }
 }

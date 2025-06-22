@@ -1,4 +1,5 @@
 ﻿using EmployeeSourcebook.DbConnection;
+using EmployeeSourcebook.DbConnection.Model;
 using EmployeeSourcebook.Domain;
 using System;
 using System.Collections.Generic;
@@ -69,7 +70,7 @@ namespace EmployeeSourcebook.Views
                     }
                 case DbProviders.PosgreSQL:
                     {
-                        ConnectionInfo = new PosgreSQLConnectionInfo(
+                        ConnectionInfo = new PosgreSQLConnectionBaseInfo(
                             host: textBoxHost.Text,
                             port: textBoxPort.Text,
                             username: textBoxUsername.Text,
@@ -85,7 +86,10 @@ namespace EmployeeSourcebook.Views
                     }
             }
 
-            ConnectionChanged?.Invoke(ConnectionInfo);
+            if (comboBoxDbProvider.SelectedItem != null)
+            {
+                ConnectionChanged?.Invoke(ConnectionInfo);
+            }
         }
 
         private void buttonSaveAndClose_Click(object sender, EventArgs e)

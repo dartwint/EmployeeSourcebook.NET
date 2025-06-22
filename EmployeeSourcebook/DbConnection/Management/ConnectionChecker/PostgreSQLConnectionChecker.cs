@@ -1,0 +1,47 @@
+﻿using Npgsql;
+using System.Data;
+
+namespace EmployeeSourcebook.DbConnection.Management.ConnectionChecker
+{
+    public class PostgreSQLConnectionChecker : IDbConnectionChecker
+    {
+        private readonly string _connectionString;
+
+        public PostgreSQLConnectionChecker(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        public async Task<bool> IsConnectionAliveAsync(CancellationToken token)
+        {
+            try
+            {
+                using var connection = new NpgsqlConnection(_connectionString);
+                await connection.OpenAsync(token);
+                return connection.State == ConnectionState.Open;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task TryReconnectAsync(CancellationToken token)
+        {
+            try
+            {
+                using var connection = new NpgsqlConnection(_connectionString);
+                await connection.OpenAsync(token);
+                if (connection.State == ConnectionState.Open)
+                {
+                    await Task.CompletedTask;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Connection error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
+}

@@ -1,4 +1,5 @@
-﻿using EmployeeSourcebook.Views;
+﻿using EmployeeSourcebook.DbConnection.Management;
+using EmployeeSourcebook.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeSourcebook.Controllers
 {
-    internal class MainFormController
+    internal class FormMainController
     {
         private FormMain _formMain;
         private FormConnection _formConnection;
@@ -15,7 +16,7 @@ namespace EmployeeSourcebook.Controllers
 
         private ConnectionController _connectionController;
 
-        public MainFormController(FormMain formMain, FormConnection formConnection, 
+        public FormMainController(FormMain formMain, FormConnection formConnection, 
             FormSettings formSettings, ConnectionController connectionController)
         {
             _formMain = formMain;
