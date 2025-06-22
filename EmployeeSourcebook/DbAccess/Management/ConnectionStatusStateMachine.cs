@@ -1,7 +1,12 @@
-﻿using EmployeeSourcebook.DbConnection.Model;
+﻿using EmployeeSourcebook.DbAccess.Model;
 
-namespace EmployeeSourcebook.DbConnection.Management
+namespace EmployeeSourcebook.DbAccess.Management
 {
+    public enum ConnectionStatus
+    {
+        Connected, LostConnection, Disconnected, Reconnected, None
+    }
+
     public class ConnectionStatusStateMachine
     {
         public ConnectionStatus ConnectionStatus { get; private set; }

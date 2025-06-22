@@ -1,5 +1,5 @@
 ﻿using EmployeeSourcebook.Controllers;
-using EmployeeSourcebook.DbConnection.Management;
+using EmployeeSourcebook.DbAccess.Management;
 using EmployeeSourcebook.Domain;
 using EmployeeSourcebook.Views;
 using System;
@@ -20,7 +20,7 @@ namespace EmployeeSourcebook
             var formConnection = new FormBaseFactory<FormConnection>().Create();
             var formSettings = new FormBaseFactory<FormSettings>().Create();
 
-            var connectionController = new ConnectionController(formConnection);
+            var connectionController = new ConnectionController(formConnection, _mainForm);
 
             var mainController = new FormMainController(
                 _mainForm,

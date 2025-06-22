@@ -1,4 +1,4 @@
-﻿using EmployeeSourcebook.DbConnection.Management;
+﻿using EmployeeSourcebook.DbAccess.Management;
 using EmployeeSourcebook.Views;
 using System;
 using System.Collections.Generic;

@@ -29,6 +29,63 @@ namespace EmployeeSourcebook.Views
             _tabControl = new CustomTabControl();
 
             _originalTabPanelHeight = flowLayoutPanelDbTables.Height;
+
+            labelConnectionStatus.Text = "Not connected";
+            labelLastConnectionStatusUpdateAt.Text = string.Empty;
+            labelLastConnectionStatusUpdateTime.Text = string.Empty;
+        }
+
+        public void SetConnectionStateInfo(ConnectionState connectionState)
+        {
+            labelLastConnectionStatusUpdateAt.Text = "Updated at: ";
+            labelLastConnectionStatusUpdateTime.Text = DateTime.Now.ToString("HH:mm:ss");
+
+
+            switch (connectionState)
+            {
+                case ConnectionState.Open:
+                    {
+                        labelConnectionStatus.Text = "Connected";
+                        labelConnectionStatus.ForeColor = Color.Green;
+                        break;
+                    }
+                case ConnectionState.Broken:
+                    {
+                        labelConnectionStatus.Text = "Error";
+                        labelConnectionStatus.ForeColor = Color.Red;
+                        break;
+                    }
+                case ConnectionState.Connecting:
+                    {
+                        labelConnectionStatus.Text = "Connecting";
+                        labelConnectionStatus.ForeColor = Color.Blue;
+                        break;
+                    }
+                case ConnectionState.Closed:
+                    {
+                        labelConnectionStatus.Text = "Disconnected";
+                        labelConnectionStatus.ForeColor = Color.Black;
+                        break;
+                    }
+                case ConnectionState.Executing:
+                    {
+                        labelConnectionStatus.Text = "Executing command";
+                        labelConnectionStatus.ForeColor = Color.Blue;
+                        break;
+                    }
+                case ConnectionState.Fetching:
+                    {
+                        labelConnectionStatus.Text = "Fetching data";
+                        labelConnectionStatus.ForeColor = Color.Blue;
+                        break;
+                    }
+                default:
+                    {
+                        labelConnectionStatus.Text = "Unknown";
+                        labelConnectionStatus.ForeColor = Color.Black;
+                        break;
+                    }
+            }
         }
 
         private void FormMain_Load(object sender, EventArgs e)

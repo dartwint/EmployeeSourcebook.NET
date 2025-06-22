@@ -1,5 +1,5 @@
-﻿using EmployeeSourcebook.DbConnection;
-using EmployeeSourcebook.DbConnection.Model;
+﻿using EmployeeSourcebook.DbAccess;
+using EmployeeSourcebook.DbAccess.Model;
 using EmployeeSourcebook.Domain;
 using System;
 using System.Collections.Generic;
@@ -20,8 +20,9 @@ namespace EmployeeSourcebook.Views
             SQLite, PosgreSQL
         }
 
-        public IConnectionInfo? ConnectionInfo { get; set; }
-        public event Action<IConnectionInfo?>? ConnectionChanged;
+        public IConnectionInfo? ConnectionInfo { get; private set; }
+        public event Action<IConnectionInfo?>? ConnectionInfoChanged;
+        public event Action<IConnectionInfo?>? ConnectionRequested;
 
         private bool _isDbProviderSet = false;
         private DbProviders _selectedDbProvider;
@@ -42,6 +43,37 @@ namespace EmployeeSourcebook.Views
             _containersMap.Add(DbProviders.PosgreSQL, panelPostgreSQL);
         }
 
+        public void SetConnectionStatus(ConnectionState connectionState)
+        {
+            switch (connectionState)
+            {
+                case ConnectionState.Closed:
+                    {
+                        labelConnectionStatus.Text = "none";
+                        labelConnectionStatus.ForeColor = Color.Black;
+                        break;
+                    }
+                case ConnectionState.Connecting:
+                    {
+                        labelConnectionStatus.Text = "Connecting";
+                        labelConnectionStatus.ForeColor = Color.Blue;
+                        break;
+                    }
+                case ConnectionState.Open:
+                    {
+                        labelConnectionStatus.Text = "Connected";
+                        labelConnectionStatus.ForeColor = Color.Green;
+                        break;
+                    }
+                case ConnectionState.Broken:
+                    {
+                        labelConnectionStatus.Text = "Error";
+                        labelConnectionStatus.ForeColor = Color.Red;
+                        break;
+                    }
+            }
+        }
+
         private void comboBoxcomboBoxDbProvider_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (comboBoxDbProvider.SelectedItem != null)
@@ -59,18 +91,20 @@ namespace EmployeeSourcebook.Views
             }
         }
 
-        private void buttonTestConnection_Click(object sender, EventArgs e)
+        private bool UpdateConnectionInfo()
         {
+            IConnectionInfo? newConnectionInfo = null;
+
             switch (_selectedDbProvider)
             {
                 case DbProviders.SQLite:
                     {
-                        ConnectionInfo = new SQLiteConnectionBaseInfo(textBoxFileSource.Text);
+                        newConnectionInfo = new SQLiteConnectionBaseInfo(textBoxFileSource.Text);
                         break;
                     }
                 case DbProviders.PosgreSQL:
                     {
-                        ConnectionInfo = new PosgreSQLConnectionBaseInfo(
+                        newConnectionInfo = new PosgreSQLConnectionBaseInfo(
                             host: textBoxHost.Text,
                             port: textBoxPort.Text,
                             username: textBoxUsername.Text,
@@ -81,15 +115,49 @@ namespace EmployeeSourcebook.Views
                     }
                 default:
                     {
-                        MessageBox.Show($"Database provider {_selectedDbProvider} is not implemented");
+                        MessageBox.Show($"Database provider {_selectedDbProvider} " +
+                            $"is not implemented");
                         break;
                     }
             }
 
-            if (comboBoxDbProvider.SelectedItem != null)
+            if (newConnectionInfo != null)
             {
-                ConnectionChanged?.Invoke(ConnectionInfo);
+                if (ConnectionInfo == null || newConnectionInfo.GetConnectionString() !=
+                    ConnectionInfo.GetConnectionString())
+                {
+                    ConnectionInfo = newConnectionInfo;
+                    OnConnectionInfoChanged(ConnectionInfo);
+                    return true;
+                }
             }
+            else if (ConnectionInfo != null)
+            {
+                ConnectionInfo = newConnectionInfo;
+                OnConnectionInfoChanged(ConnectionInfo);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void buttonTestConnection_Click(object sender, EventArgs e)
+        {
+            if (comboBoxDbProvider.SelectedItem == null)
+            {
+                return;
+            }
+
+            if (UpdateConnectionInfo())
+            {
+                //ConnectionRequested?.Invoke(ConnectionInfo);
+            }
+            ConnectionRequested?.Invoke(ConnectionInfo);
+        }
+
+        private void OnConnectionInfoChanged(IConnectionInfo? connectionInfo)
+        {
+            ConnectionInfoChanged?.Invoke(ConnectionInfo);
         }
 
         private void buttonSaveAndClose_Click(object sender, EventArgs e)

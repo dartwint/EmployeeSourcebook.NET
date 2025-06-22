@@ -31,6 +31,8 @@
             flowLayoutPanelFooter = new FlowLayoutPanel();
             labelConnectionStatusHeader = new Label();
             labelConnectionStatus = new Label();
+            labelLastConnectionStatusUpdateAt = new Label();
+            labelLastConnectionStatusUpdateTime = new Label();
             dataGridViewEmployees = new DataGridView();
             flowLayoutPanelMenuContainer = new FlowLayoutPanel();
             menuStrip = new MenuStrip();
@@ -46,8 +48,6 @@
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
-            labelLastConnectionStatusUpdateAt = new Label();
-            labelLastConnectionStatusUpdateTime = new Label();
             flowLayoutPanelFooter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize) dataGridViewEmployees).BeginInit();
             flowLayoutPanelMenuContainer.SuspendLayout();
@@ -90,6 +90,25 @@
             labelConnectionStatus.TabIndex = 1;
             labelConnectionStatus.Text = "STATUS";
             labelConnectionStatus.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // labelLastConnectionStatusUpdateAt
+            // 
+            labelLastConnectionStatusUpdateAt.AutoSize = true;
+            labelLastConnectionStatusUpdateAt.Location = new Point(166, 0);
+            labelLastConnectionStatusUpdateAt.Name = "labelLastConnectionStatusUpdateAt";
+            labelLastConnectionStatusUpdateAt.Size = new Size(65, 15);
+            labelLastConnectionStatusUpdateAt.TabIndex = 2;
+            labelLastConnectionStatusUpdateAt.Text = "Updatet at:";
+            labelLastConnectionStatusUpdateAt.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // labelLastConnectionStatusUpdateTime
+            // 
+            labelLastConnectionStatusUpdateTime.AutoSize = true;
+            labelLastConnectionStatusUpdateTime.Location = new Point(237, 0);
+            labelLastConnectionStatusUpdateTime.Name = "labelLastConnectionStatusUpdateTime";
+            labelLastConnectionStatusUpdateTime.Size = new Size(33, 15);
+            labelLastConnectionStatusUpdateTime.TabIndex = 3;
+            labelLastConnectionStatusUpdateTime.Text = "TIME";
             // 
             // dataGridViewEmployees
             // 
@@ -194,6 +213,7 @@
             // 
             // panelRootContainer
             // 
+            panelRootContainer.AutoScroll = true;
             panelRootContainer.Controls.Add(button4);
             panelRootContainer.Controls.Add(button3);
             panelRootContainer.Controls.Add(button2);
@@ -249,25 +269,6 @@
             button1.TabIndex = 9;
             button1.Text = "Refresh data";
             button1.UseVisualStyleBackColor = true;
-            // 
-            // labelLastConnectionStatusUpdateAt
-            // 
-            labelLastConnectionStatusUpdateAt.AutoSize = true;
-            labelLastConnectionStatusUpdateAt.Location = new Point(166, 0);
-            labelLastConnectionStatusUpdateAt.Name = "labelLastConnectionStatusUpdateAt";
-            labelLastConnectionStatusUpdateAt.Size = new Size(65, 15);
-            labelLastConnectionStatusUpdateAt.TabIndex = 2;
-            labelLastConnectionStatusUpdateAt.Text = "Updatet at:";
-            labelLastConnectionStatusUpdateAt.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // labelLastConnectionStatusUpdateTime
-            // 
-            labelLastConnectionStatusUpdateTime.AutoSize = true;
-            labelLastConnectionStatusUpdateTime.Location = new Point(237, 0);
-            labelLastConnectionStatusUpdateTime.Name = "labelLastConnectionStatusUpdateTime";
-            labelLastConnectionStatusUpdateTime.Size = new Size(33, 15);
-            labelLastConnectionStatusUpdateTime.TabIndex = 3;
-            labelLastConnectionStatusUpdateTime.Text = "TIME";
             // 
             // FormMain
             // 
