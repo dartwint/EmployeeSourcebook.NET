@@ -25,6 +25,14 @@ namespace EmployeeSourcebook.Controllers
 
             _formMain.ButtonConnectionSettingsClick += ShowFormConnection;
             _formMain.ButtonSettingsClick += ShowFormSettings;
+
+            Test();
+        }
+
+        private void Test()
+        {
+            var dummyDbAdmin = new DummyDbAdminController();
+            dummyDbAdmin.SQLiteTestExecute();
         }
 
         private void ShowFormSettings()

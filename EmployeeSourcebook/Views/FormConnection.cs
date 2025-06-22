@@ -69,11 +69,12 @@ namespace EmployeeSourcebook.Views
                     }
                 case DbProviders.PosgreSQL:
                     {
-                        ConnectionInfo = new PosgreSQLConnectionBaseInfo(
-                            textBoxHost.Text,
-                            textBoxPort.Text,
-                            textBoxUsername.Text,
-                            textBoxPassword.Text
+                        ConnectionInfo = new PosgreSQLConnectionInfo(
+                            host: textBoxHost.Text,
+                            port: textBoxPort.Text,
+                            username: textBoxUsername.Text,
+                            password: textBoxPassword.Text,
+                            database: textBoxDatabase.Text
                             );
                         break;
                     }

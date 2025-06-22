@@ -60,6 +60,9 @@
             textBoxPort = new TextBox();
             textBoxUsername = new TextBox();
             textBoxPassword = new TextBox();
+            textBoxDatabase = new TextBox();
+            labelDatabase = new Label();
+            button1 = new Button();
             panelRoot.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             tableLayoutPanelRoot.SuspendLayout();
@@ -77,7 +80,7 @@
             buttonSaveAndClose.Anchor = AnchorStyles.Right;
             buttonSaveAndClose.BackColor = SystemColors.GradientActiveCaption;
             buttonSaveAndClose.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  204);
-            buttonSaveAndClose.Location = new Point(555, 3);
+            buttonSaveAndClose.Location = new Point(531, 3);
             buttonSaveAndClose.Name = "buttonSaveAndClose";
             buttonSaveAndClose.Size = new Size(192, 48);
             buttonSaveAndClose.TabIndex = 5;
@@ -92,7 +95,7 @@
             labelConnectionStatusTitle.Font = new Font("Segoe UI", 12F);
             labelConnectionStatusTitle.Location = new Point(3, 16);
             labelConnectionStatusTitle.Name = "labelConnectionStatusTitle";
-            labelConnectionStatusTitle.Size = new Size(188, 21);
+            labelConnectionStatusTitle.Size = new Size(182, 21);
             labelConnectionStatusTitle.TabIndex = 6;
             labelConnectionStatusTitle.Text = "Connection status:";
             labelConnectionStatusTitle.TextAlign = ContentAlignment.MiddleCenter;
@@ -103,9 +106,9 @@
             labelConnectionStatus.AutoSize = true;
             labelConnectionStatus.BackColor = SystemColors.Info;
             labelConnectionStatus.Font = new Font("Segoe UI", 12F);
-            labelConnectionStatus.Location = new Point(197, 16);
+            labelConnectionStatus.Location = new Point(191, 16);
             labelConnectionStatus.Name = "labelConnectionStatus";
-            labelConnectionStatus.Size = new Size(103, 21);
+            labelConnectionStatus.Size = new Size(100, 21);
             labelConnectionStatus.TabIndex = 7;
             labelConnectionStatus.Text = "none";
             labelConnectionStatus.TextAlign = ContentAlignment.MiddleCenter;
@@ -114,7 +117,7 @@
             // 
             buttonTestConnection.Anchor = AnchorStyles.None;
             buttonTestConnection.BackColor = SystemColors.ButtonHighlight;
-            buttonTestConnection.Location = new Point(323, 11);
+            buttonTestConnection.Location = new Point(311, 11);
             buttonTestConnection.Margin = new Padding(2);
             buttonTestConnection.Name = "buttonTestConnection";
             buttonTestConnection.Size = new Size(128, 31);
@@ -131,7 +134,7 @@
             panelRoot.Dock = DockStyle.Fill;
             panelRoot.Location = new Point(0, 0);
             panelRoot.Name = "panelRoot";
-            panelRoot.Size = new Size(780, 638);
+            panelRoot.Size = new Size(732, 308);
             panelRoot.TabIndex = 7;
             // 
             // flowLayoutPanel1
@@ -144,7 +147,7 @@
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(0, 0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(780, 638);
+            flowLayoutPanel1.Size = new Size(732, 308);
             flowLayoutPanel1.TabIndex = 10;
             flowLayoutPanel1.WrapContents = false;
             // 
@@ -167,16 +170,15 @@
             tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanelRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanelRoot.Size = new Size(750, 54);
+            tableLayoutPanelRoot.Size = new Size(726, 54);
             tableLayoutPanelRoot.TabIndex = 7;
             // 
             // tableLayoutPanelConnectionFieldsRoot
             // 
-            tableLayoutPanelConnectionFieldsRoot.AutoScroll = true;
             tableLayoutPanelConnectionFieldsRoot.AutoSize = true;
             tableLayoutPanelConnectionFieldsRoot.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tableLayoutPanelConnectionFieldsRoot.ColumnCount = 1;
-            tableLayoutPanelConnectionFieldsRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanelConnectionFieldsRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanelConnectionFieldsRoot.Controls.Add(panelProvider, 0, 0);
             tableLayoutPanelConnectionFieldsRoot.Controls.Add(panelSQLite, 0, 1);
             tableLayoutPanelConnectionFieldsRoot.Controls.Add(panelPostgreSQL, 0, 2);
@@ -184,10 +186,10 @@
             tableLayoutPanelConnectionFieldsRoot.Location = new Point(3, 63);
             tableLayoutPanelConnectionFieldsRoot.Name = "tableLayoutPanelConnectionFieldsRoot";
             tableLayoutPanelConnectionFieldsRoot.RowCount = 3;
-            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 44.5652161F));
-            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 55.4347839F));
-            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 482F));
-            tableLayoutPanelConnectionFieldsRoot.Size = new Size(750, 567);
+            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle());
+            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle());
+            tableLayoutPanelConnectionFieldsRoot.RowStyles.Add(new RowStyle());
+            tableLayoutPanelConnectionFieldsRoot.Size = new Size(726, 237);
             tableLayoutPanelConnectionFieldsRoot.TabIndex = 9;
             // 
             // panelProvider
@@ -199,7 +201,7 @@
             panelProvider.Dock = DockStyle.Fill;
             panelProvider.Location = new Point(3, 3);
             panelProvider.Name = "panelProvider";
-            panelProvider.Size = new Size(744, 31);
+            panelProvider.Size = new Size(720, 31);
             panelProvider.TabIndex = 10;
             // 
             // tableLayoutPanelProviderChoose
@@ -215,7 +217,7 @@
             tableLayoutPanelProviderChoose.Name = "tableLayoutPanelProviderChoose";
             tableLayoutPanelProviderChoose.RowCount = 1;
             tableLayoutPanelProviderChoose.RowStyles.Add(new RowStyle());
-            tableLayoutPanelProviderChoose.Size = new Size(742, 29);
+            tableLayoutPanelProviderChoose.Size = new Size(718, 29);
             tableLayoutPanelProviderChoose.TabIndex = 9;
             // 
             // labelProviderChoose
@@ -235,9 +237,9 @@
             comboBoxDbProvider.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
             comboBoxDbProvider.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxDbProvider.FormattingEnabled = true;
-            comboBoxDbProvider.Location = new Point(126, 3);
+            comboBoxDbProvider.Location = new Point(122, 3);
             comboBoxDbProvider.Name = "comboBoxDbProvider";
-            comboBoxDbProvider.Size = new Size(613, 23);
+            comboBoxDbProvider.Size = new Size(593, 23);
             comboBoxDbProvider.TabIndex = 12;
             comboBoxDbProvider.SelectionChangeCommitted += comboBoxcomboBoxDbProvider_SelectionChangeCommitted;
             // 
@@ -250,7 +252,7 @@
             panelSQLite.Dock = DockStyle.Fill;
             panelSQLite.Location = new Point(3, 40);
             panelSQLite.Name = "panelSQLite";
-            panelSQLite.Size = new Size(744, 41);
+            panelSQLite.Size = new Size(720, 41);
             panelSQLite.TabIndex = 8;
             // 
             // tableLayoutPanelProviderSpecificSQLite
@@ -270,7 +272,7 @@
             tableLayoutPanelProviderSpecificSQLite.Name = "tableLayoutPanelProviderSpecificSQLite";
             tableLayoutPanelProviderSpecificSQLite.RowCount = 1;
             tableLayoutPanelProviderSpecificSQLite.RowStyles.Add(new RowStyle());
-            tableLayoutPanelProviderSpecificSQLite.Size = new Size(742, 39);
+            tableLayoutPanelProviderSpecificSQLite.Size = new Size(718, 39);
             tableLayoutPanelProviderSpecificSQLite.TabIndex = 9;
             // 
             // labelDbSource
@@ -291,11 +293,11 @@
             textBoxFileSource.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
             textBoxFileSource.BackColor = SystemColors.ButtonHighlight;
             textBoxFileSource.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point,  204);
-            textBoxFileSource.Location = new Point(130, 8);
+            textBoxFileSource.Location = new Point(125, 8);
             textBoxFileSource.Name = "textBoxFileSource";
             textBoxFileSource.PlaceholderText = "Drop or select SQLite Database file";
             textBoxFileSource.ReadOnly = true;
-            textBoxFileSource.Size = new Size(514, 23);
+            textBoxFileSource.Size = new Size(495, 23);
             textBoxFileSource.TabIndex = 12;
             textBoxFileSource.TextAlign = HorizontalAlignment.Center;
             // 
@@ -307,7 +309,7 @@
             buttonResetFileSource.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetFileSource.FlatAppearance.BorderSize = 0;
             buttonResetFileSource.FlatStyle = FlatStyle.Flat;
-            buttonResetFileSource.Location = new Point(726, 8);
+            buttonResetFileSource.Location = new Point(702, 8);
             buttonResetFileSource.Name = "buttonResetFileSource";
             buttonResetFileSource.Size = new Size(12, 23);
             buttonResetFileSource.TabIndex = 10;
@@ -316,7 +318,7 @@
             // buttonSelectFileSource
             // 
             buttonSelectFileSource.Anchor = AnchorStyles.None;
-            buttonSelectFileSource.Location = new Point(650, 3);
+            buttonSelectFileSource.Location = new Point(626, 3);
             buttonSelectFileSource.Name = "buttonSelectFileSource";
             buttonSelectFileSource.Size = new Size(70, 33);
             buttonSelectFileSource.TabIndex = 13;
@@ -333,7 +335,7 @@
             panelPostgreSQL.Dock = DockStyle.Top;
             panelPostgreSQL.Location = new Point(3, 87);
             panelPostgreSQL.Name = "panelPostgreSQL";
-            panelPostgreSQL.Size = new Size(744, 118);
+            panelPostgreSQL.Size = new Size(720, 147);
             panelPostgreSQL.TabIndex = 11;
             // 
             // tableLayoutPanelProviderSpecificPostgreSQL
@@ -355,15 +357,22 @@
             tableLayoutPanelProviderSpecificPostgreSQL.Controls.Add(textBoxPort, 1, 1);
             tableLayoutPanelProviderSpecificPostgreSQL.Controls.Add(textBoxUsername, 1, 2);
             tableLayoutPanelProviderSpecificPostgreSQL.Controls.Add(textBoxPassword, 1, 3);
+            tableLayoutPanelProviderSpecificPostgreSQL.Controls.Add(textBoxDatabase, 1, 4);
+            tableLayoutPanelProviderSpecificPostgreSQL.Controls.Add(labelDatabase, 0, 4);
+            tableLayoutPanelProviderSpecificPostgreSQL.Controls.Add(button1, 2, 4);
             tableLayoutPanelProviderSpecificPostgreSQL.Dock = DockStyle.Fill;
             tableLayoutPanelProviderSpecificPostgreSQL.Location = new Point(0, 0);
             tableLayoutPanelProviderSpecificPostgreSQL.Name = "tableLayoutPanelProviderSpecificPostgreSQL";
-            tableLayoutPanelProviderSpecificPostgreSQL.RowCount = 4;
+            tableLayoutPanelProviderSpecificPostgreSQL.RowCount = 5;
             tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle());
             tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle());
             tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle());
             tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle());
-            tableLayoutPanelProviderSpecificPostgreSQL.Size = new Size(742, 116);
+            tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle());
+            tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanelProviderSpecificPostgreSQL.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanelProviderSpecificPostgreSQL.Size = new Size(718, 145);
             tableLayoutPanelProviderSpecificPostgreSQL.TabIndex = 9;
             // 
             // buttonResetPort
@@ -374,7 +383,7 @@
             buttonResetPort.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetPort.FlatAppearance.BorderSize = 0;
             buttonResetPort.FlatStyle = FlatStyle.Flat;
-            buttonResetPort.Location = new Point(725, 32);
+            buttonResetPort.Location = new Point(701, 32);
             buttonResetPort.Name = "buttonResetPort";
             buttonResetPort.Size = new Size(13, 23);
             buttonResetPort.TabIndex = 11;
@@ -388,7 +397,7 @@
             buttonResetHost.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetHost.FlatAppearance.BorderSize = 0;
             buttonResetHost.FlatStyle = FlatStyle.Flat;
-            buttonResetHost.Location = new Point(725, 3);
+            buttonResetHost.Location = new Point(701, 3);
             buttonResetHost.Name = "buttonResetHost";
             buttonResetHost.Size = new Size(13, 23);
             buttonResetHost.TabIndex = 11;
@@ -447,7 +456,7 @@
             buttonResetUsername.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetUsername.FlatAppearance.BorderSize = 0;
             buttonResetUsername.FlatStyle = FlatStyle.Flat;
-            buttonResetUsername.Location = new Point(725, 61);
+            buttonResetUsername.Location = new Point(701, 61);
             buttonResetUsername.Name = "buttonResetUsername";
             buttonResetUsername.Size = new Size(13, 23);
             buttonResetUsername.TabIndex = 15;
@@ -461,7 +470,7 @@
             buttonResetPassword.BackgroundImageLayout = ImageLayout.Zoom;
             buttonResetPassword.FlatAppearance.BorderSize = 0;
             buttonResetPassword.FlatStyle = FlatStyle.Flat;
-            buttonResetPassword.Location = new Point(725, 90);
+            buttonResetPassword.Location = new Point(701, 90);
             buttonResetPassword.Name = "buttonResetPassword";
             buttonResetPassword.Size = new Size(13, 23);
             buttonResetPassword.TabIndex = 16;
@@ -470,40 +479,74 @@
             // textBoxHost
             // 
             textBoxHost.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
-            textBoxHost.Location = new Point(127, 3);
+            textBoxHost.Location = new Point(123, 3);
             textBoxHost.Name = "textBoxHost";
-            textBoxHost.Size = new Size(591, 23);
+            textBoxHost.Size = new Size(571, 23);
             textBoxHost.TabIndex = 17;
             // 
             // textBoxPort
             // 
             textBoxPort.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
-            textBoxPort.Location = new Point(127, 32);
+            textBoxPort.Location = new Point(123, 32);
             textBoxPort.Name = "textBoxPort";
-            textBoxPort.Size = new Size(591, 23);
+            textBoxPort.Size = new Size(571, 23);
             textBoxPort.TabIndex = 18;
             // 
             // textBoxUsername
             // 
             textBoxUsername.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
-            textBoxUsername.Location = new Point(127, 61);
+            textBoxUsername.Location = new Point(123, 61);
             textBoxUsername.Name = "textBoxUsername";
-            textBoxUsername.Size = new Size(591, 23);
+            textBoxUsername.Size = new Size(571, 23);
             textBoxUsername.TabIndex = 19;
             // 
             // textBoxPassword
             // 
             textBoxPassword.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
-            textBoxPassword.Location = new Point(127, 90);
+            textBoxPassword.Location = new Point(123, 90);
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(591, 23);
+            textBoxPassword.Size = new Size(571, 23);
             textBoxPassword.TabIndex = 20;
+            // 
+            // textBoxDatabase
+            // 
+            textBoxDatabase.Anchor =  AnchorStyles.Left | AnchorStyles.Right;
+            textBoxDatabase.Location = new Point(123, 119);
+            textBoxDatabase.Name = "textBoxDatabase";
+            textBoxDatabase.Size = new Size(571, 23);
+            textBoxDatabase.TabIndex = 22;
+            // 
+            // labelDatabase
+            // 
+            labelDatabase.Anchor = AnchorStyles.Left;
+            labelDatabase.AutoSize = true;
+            labelDatabase.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  204);
+            labelDatabase.Location = new Point(3, 120);
+            labelDatabase.Name = "labelDatabase";
+            labelDatabase.Size = new Size(72, 20);
+            labelDatabase.TabIndex = 21;
+            labelDatabase.Text = "Database";
+            labelDatabase.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // button1
+            // 
+            button1.Anchor = AnchorStyles.None;
+            button1.BackColor = Color.Transparent;
+            button1.BackgroundImage = Properties.Resources.ResetImage;
+            button1.BackgroundImageLayout = ImageLayout.Zoom;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Location = new Point(701, 119);
+            button1.Name = "button1";
+            button1.Size = new Size(13, 23);
+            button1.TabIndex = 23;
+            button1.UseVisualStyleBackColor = false;
             // 
             // FormConnection
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(780, 638);
+            ClientSize = new Size(732, 308);
             Controls.Add(panelRoot);
             Name = "FormConnection";
             Text = "Connection settings";
@@ -562,5 +605,8 @@
         private TextBox textBoxUsername;
         private TextBox textBoxPassword;
         private FlowLayoutPanel flowLayoutPanel1;
+        private Label labelDatabase;
+        private TextBox textBoxDatabase;
+        private Button button1;
     }
 }

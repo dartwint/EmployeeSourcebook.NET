@@ -2,6 +2,6 @@
 {
     public interface IConnectionInfo
     {
-        string ConnectionString { get; set; }
+        string GetConnectionString();
     }
 }

@@ -13,12 +13,25 @@ namespace EmployeeSourcebook.Controllers
         private FormConnection _formConnection;
         private ConnectionMonitor _connectionMonitor;
 
+        private PosgreSQLConnectionBaseInfo _PostgreSQLConnectionDefaultInfo;
+        private SQLiteConnectionBaseInfo _SQLiteConnectionDefaultInfo;
+
         public ConnectionController(ConnectionMonitor connectionMonitor, FormConnection formConnection)
         {
             _formConnection = formConnection;
             _connectionMonitor = connectionMonitor;
 
             _formConnection.ConnectionChanged += OnConnectionTestRequested;
+
+            _SQLiteConnectionDefaultInfo = new SQLiteConnectionBaseInfo(
+                dataSource: "SQLite/EmployeesSourcebook.db");
+
+            _PostgreSQLConnectionDefaultInfo = new PosgreSQLConnectionBaseInfo(
+                host: "localhost",
+                port: "5432",
+                username: "postgres",
+                password: "masterkey"
+                );
         }
 
         private void OnConnectionTestRequested(IConnectionInfo? connectionInfo)
@@ -26,7 +39,7 @@ namespace EmployeeSourcebook.Controllers
             if (connectionInfo == null)
                 return;
 
-            MessageBox.Show(connectionInfo.ConnectionString);
+            MessageBox.Show(connectionInfo.GetConnectionString());
         }
     }
 }
