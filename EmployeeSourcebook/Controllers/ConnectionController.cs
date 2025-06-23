@@ -12,8 +12,6 @@ namespace EmployeeSourcebook.Controllers
         private FormMain _formMain;
         private ConnectionMonitor? _connectionMonitor;
 
-        //private DbConnection? _dbConnection;
-
         public ConnectionController(FormConnection formConnection, FormMain formMain)
         {
             _formConnection = formConnection;
@@ -47,6 +45,8 @@ namespace EmployeeSourcebook.Controllers
             if (connectionInfo == null)
                 return;
 
+            _formConnection.LockOnConnection();
+
             if (_connectionMonitor != null && _connectionMonitor.IsRunning)
             {
                 _connectionMonitor.Stop();
@@ -72,10 +72,8 @@ namespace EmployeeSourcebook.Controllers
                 return;
             }
 
-            //var connectionCheckerFactory = new DbConnectionCheckerFactory();
-            //var connectionMonitor = connectionCheckerFactory.CreateConnectionChecker(connection);
             _connectionMonitor = new ConnectionMonitor(connection);
-            //_connectionMonitor.ConnectionAttempt += UpdateFormConnection;
+
             bool connectionResult = _connectionMonitor.TryConnect();
             if (connectionResult)
             {
@@ -85,13 +83,9 @@ namespace EmployeeSourcebook.Controllers
             {
                 UpdateFormConnection(ConnectionState.Broken);
             }
-            //_connectionMonitor.Start(new TimeSpan(0, 0, 5));
-        }
 
-        //private void SaveConnection(DbConnection dbConnection)
-        //{
-        //    _dbConnection = dbConnection;
-        //}
+            _formConnection.UnlockOnConnection();
+        }
 
         private void UpdateFormConnection(ConnectionState connectionState)
         {

@@ -180,6 +180,18 @@ namespace EmployeeSourcebook.Views
             return false;
         }
 
+        public void LockOnConnection()
+        {
+            buttonTestConnection.Enabled = false;
+            Cursor = Cursors.WaitCursor;
+        }
+
+        public void UnlockOnConnection()
+        {
+            buttonTestConnection.Enabled = true;
+            Cursor = Cursors.Default;
+        }
+
         private void buttonTestConnection_Click(object sender, EventArgs e)
         {
             if (comboBoxDbProvider.SelectedItem == null)

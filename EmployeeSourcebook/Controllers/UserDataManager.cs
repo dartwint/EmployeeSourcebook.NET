@@ -1,5 +1,4 @@
-﻿using EmployeeSourcebook.Properties;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace EmployeeSourcebook.Controllers
 {
@@ -19,8 +18,7 @@ namespace EmployeeSourcebook.Controllers
             }
             catch (Exception ex)
             {
-                //MessageBox.Show($"Error on saving data with type: {typeof(TData)}. Reason:\n{ex.Message}");
-                throw;
+                MessageBox.Show($"Error on saving data with type: {typeof(TData)}. Reason:\n{ex.Message}");
             }
         }
 
