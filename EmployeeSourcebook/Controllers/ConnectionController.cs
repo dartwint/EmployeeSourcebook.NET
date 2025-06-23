@@ -3,7 +3,6 @@ using EmployeeSourcebook.DbAccess.Management;
 using EmployeeSourcebook.DbAccess.Model;
 using EmployeeSourcebook.Views;
 using System.Data;
-using System.Data.Common;
 
 namespace EmployeeSourcebook.Controllers
 {
@@ -12,9 +11,6 @@ namespace EmployeeSourcebook.Controllers
         private FormConnection _formConnection;
         private FormMain _formMain;
         private ConnectionMonitor? _connectionMonitor;
-
-        private PosgreSQLConnectionBaseInfo _PostgreSQLConnectionDefaultInfo;
-        private SQLiteConnectionBaseInfo _SQLiteConnectionDefaultInfo;
 
         //private DbConnection? _dbConnection;
 
@@ -26,17 +22,6 @@ namespace EmployeeSourcebook.Controllers
             _formConnection.ConnectionRequested += OnConnectionTestRequested;
             _formConnection.FormClosed += OnFormConnectionClosed;
             _formConnection.Load += OnFormConnectionOpened;
-
-            _SQLiteConnectionDefaultInfo = new SQLiteConnectionBaseInfo(
-                dataSource: "SQLite/EmployeesSourcebook.db");
-
-            _PostgreSQLConnectionDefaultInfo = new PosgreSQLConnectionBaseInfo(
-                host: "localhost",
-                port: "5432",
-                username: "postgres",
-                password: "masterkey",
-                database: "postgres"
-                );
         }
 
         private void OnFormConnectionClosed(object? sender, FormClosedEventArgs e)

@@ -61,12 +61,57 @@ namespace EmployeeSourcebook.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на userdata/userConnectionData.xml.
+        /// </summary>
+        internal static string ConnectionUserDataXMLPath {
+            get {
+                return ResourceManager.GetString("ConnectionUserDataXMLPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SQL queries/PostgreSQL/Test.sql.
+        /// </summary>
+        internal static string PostgreSQLDatabaseCreationCommandFile {
+            get {
+                return ResourceManager.GetString("PostgreSQLDatabaseCreationCommandFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ResetImage {
             get {
                 object obj = ResourceManager.GetObject("ResetImage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на userdata/userSettingsData.xml.
+        /// </summary>
+        internal static string SettingsUserDataXMLPath {
+            get {
+                return ResourceManager.GetString("SettingsUserDataXMLPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SQL queries/SQLite/Test.sql.
+        /// </summary>
+        internal static string SQLiteDatabaseCreationCommandFile {
+            get {
+                return ResourceManager.GetString("SQLiteDatabaseCreationCommandFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SQLite/EmployeesSourcebook.db.
+        /// </summary>
+        internal static string SQLiteDbPath {
+            get {
+                return ResourceManager.GetString("SQLiteDbPath", resourceCulture);
             }
         }
     }

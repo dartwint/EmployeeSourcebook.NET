@@ -1,46 +1,80 @@
-﻿using EmployeeSourcebook.DbAccess;
+﻿using EmployeeSourcebook.Controllers;
 using EmployeeSourcebook.DbAccess.Model;
 using EmployeeSourcebook.Domain;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using EmployeeSourcebook.Models;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace EmployeeSourcebook.Views
 {
     public partial class FormConnection : Form, IConnectionView
     {
-        public enum DbProviders
+        public enum DbProvider
         {
-            SQLite, PosgreSQL
+            SQLite, PosgreSQL, None
         }
 
         public IConnectionInfo? ConnectionInfo { get; private set; }
         public event Action<IConnectionInfo?>? ConnectionInfoChanged;
         public event Action<IConnectionInfo?>? ConnectionRequested;
 
-        private bool _isDbProviderSet = false;
-        private DbProviders _selectedDbProvider;
-        private Dictionary<DbProviders, Control> _containersMap = new();
+        private DbProvider _selectedDbProvider = DbProvider.None;
+        private Dictionary<DbProvider, Control> _containersMap = new();
+
+        private Color _buttonSaveOrigColor;
 
         public FormConnection()
         {
             InitializeComponent();
 
-            var providers = Enum.GetValues(typeof(DbProviders));
-            comboBoxDbProvider.DataSource = providers;
+            //var providers = Enum.GetValues(typeof(DbProvider));
+            comboBoxDbProvider.Items.Add(DbProvider.SQLite);
+            comboBoxDbProvider.Items.Add(DbProvider.PosgreSQL);
             comboBoxDbProvider.SelectedItem = null;
 
-            panelSQLite.Hide();
-            panelPostgreSQL.Hide();
+            _containersMap.Add(DbProvider.SQLite, panelSQLite);
+            _containersMap.Add(DbProvider.PosgreSQL, panelPostgreSQL);
 
-            _containersMap.Add(DbProviders.SQLite, panelSQLite);
-            _containersMap.Add(DbProviders.PosgreSQL, panelPostgreSQL);
+            _buttonSaveOrigColor = buttonSaveAndClose.BackColor;
+            buttonSaveAndClose.Enabled = false;
+            buttonSaveAndClose.BackColor = Color.DarkGray;
+
+            LoadData();
+            ShowAvailableFields();
+        }
+
+        private ConnectionUserData? _userData;
+
+        private void LoadData()
+        {
+            _userData = UserDataManager.LoadData<ConnectionUserData>(ConnectionUserData.dataPath);
+
+            if (_userData.SelectedProvider != DbProvider.None)
+                comboBoxDbProvider.SelectedItem = _userData.SelectedProvider;
+            _selectedDbProvider = _userData.SelectedProvider;
+            textBoxFileSource.Text = _userData.SQLiteConnectionInfo.DataSource;
+            textBoxHost.Text = _userData.PosgreSQLConnectionInfo.Host;
+            textBoxPort.Text = _userData.PosgreSQLConnectionInfo.Port;
+            textBoxUsername.Text = _userData.PosgreSQLConnectionInfo.Username;
+            textBoxPassword.Text = _userData.PosgreSQLConnectionInfo.Password;
+            textBoxDatabase.Text = _userData.PosgreSQLConnectionInfo.Database;
+        }
+
+        private void SaveData()
+        {
+            if (_userData == null)
+                _userData = new();
+
+            _userData.SelectedProvider = _selectedDbProvider;
+            _userData.SQLiteConnectionInfo = new SQLiteConnectionBaseInfo(textBoxFileSource.Text);
+            _userData.PosgreSQLConnectionInfo = new PosgreSQLConnectionBaseInfo(
+                host: textBoxHost.Text,
+                port: textBoxPort.Text,
+                username: textBoxUsername.Text,
+                password: textBoxPassword.Text,
+                database: textBoxDatabase.Text
+                );
+
+            UserDataManager.SaveData(_userData, ConnectionUserData.dataPath);
         }
 
         public void SetConnectionStatus(ConnectionState connectionState)
@@ -63,6 +97,9 @@ namespace EmployeeSourcebook.Views
                     {
                         labelConnectionStatus.Text = "Connected";
                         labelConnectionStatus.ForeColor = Color.Green;
+
+                        buttonSaveAndClose.Enabled = true;
+                        buttonSaveAndClose.BackColor = _buttonSaveOrigColor;
                         break;
                     }
                 case ConnectionState.Broken:
@@ -77,18 +114,20 @@ namespace EmployeeSourcebook.Views
         private void comboBoxcomboBoxDbProvider_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (comboBoxDbProvider.SelectedItem != null)
-            {
-                if (_isDbProviderSet)
-                {
-                    tableLayoutPanelConnectionFieldsRoot.SetRow(_containersMap[_selectedDbProvider], 2);
-                    _containersMap[_selectedDbProvider].Hide();
-                }
+                _selectedDbProvider = (DbProvider) comboBoxDbProvider.SelectedItem;
 
-                _selectedDbProvider = (DbProviders) comboBoxDbProvider.SelectedItem;
-                tableLayoutPanelConnectionFieldsRoot.SetRow(_containersMap[_selectedDbProvider], 1);
-                _containersMap[_selectedDbProvider].Show();
-                _isDbProviderSet = true;
+            ShowAvailableFields();
+        }
+
+        private void ShowAvailableFields()
+        {
+            foreach (var control in _containersMap.Values)
+            {
+                control.Hide();
             }
+
+            tableLayoutPanelConnectionFieldsRoot.SetRow(_containersMap[_selectedDbProvider], 1);
+            _containersMap[_selectedDbProvider].Show();
         }
 
         private bool UpdateConnectionInfo()
@@ -97,12 +136,12 @@ namespace EmployeeSourcebook.Views
 
             switch (_selectedDbProvider)
             {
-                case DbProviders.SQLite:
+                case DbProvider.SQLite:
                     {
                         newConnectionInfo = new SQLiteConnectionBaseInfo(textBoxFileSource.Text);
                         break;
                     }
-                case DbProviders.PosgreSQL:
+                case DbProvider.PosgreSQL:
                     {
                         newConnectionInfo = new PosgreSQLConnectionBaseInfo(
                             host: textBoxHost.Text,
@@ -162,7 +201,9 @@ namespace EmployeeSourcebook.Views
 
         private void buttonSaveAndClose_Click(object sender, EventArgs e)
         {
-            //Close();
+            SaveData();
+
+            Close();
         }
 
         private void buttonSelectFileSource_Click(object sender, EventArgs e)

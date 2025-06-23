@@ -84,7 +84,7 @@
             buttonSaveAndClose.Name = "buttonSaveAndClose";
             buttonSaveAndClose.Size = new Size(192, 48);
             buttonSaveAndClose.TabIndex = 5;
-            buttonSaveAndClose.Text = "Save and close";
+            buttonSaveAndClose.Text = "Save and proceed";
             buttonSaveAndClose.UseVisualStyleBackColor = false;
             buttonSaveAndClose.Click += buttonSaveAndClose_Click;
             // 
@@ -295,7 +295,7 @@
             textBoxFileSource.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point,  204);
             textBoxFileSource.Location = new Point(125, 8);
             textBoxFileSource.Name = "textBoxFileSource";
-            textBoxFileSource.PlaceholderText = "Drop or select SQLite Database file";
+            textBoxFileSource.PlaceholderText = "Select SQLite Database file";
             textBoxFileSource.ReadOnly = true;
             textBoxFileSource.Size = new Size(495, 23);
             textBoxFileSource.TabIndex = 12;

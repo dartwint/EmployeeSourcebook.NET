@@ -14,6 +14,8 @@
                 $"Port={Port};", $"Username={Username};", $"Password={Password};", $"Database={Database};");
         }
 
+        public PosgreSQLConnectionBaseInfo() { }
+
         public PosgreSQLConnectionBaseInfo(string host, string port, string username, 
             string password, string database)
         {

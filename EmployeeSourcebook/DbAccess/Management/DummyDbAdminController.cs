@@ -1,16 +1,12 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EmployeeSourcebook.Properties;
+using Microsoft.Data.Sqlite;
 
 namespace EmployeeSourcebook.DbAccess.Management
 {
     public class DummyDbAdminController
     {
-        private const string _testSQLCommandPath = "SQL queries/SQLite/Test.sql";
-        private const string _SQLiteDbPath = "SQLite/EmployeesSourcebook.db";
+        private readonly string _testSQLCommandPath = Resources.SQLiteDatabaseCreationCommandFile;
+        private readonly string _SQLiteDbPath = Resources.SQLiteDbPath;
 
         //private ConnectionMonitor _connectionMonitor;
 

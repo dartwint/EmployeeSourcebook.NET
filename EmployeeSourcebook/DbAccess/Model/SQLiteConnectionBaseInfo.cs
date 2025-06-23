@@ -9,6 +9,8 @@
             return $"Data Source={DataSource}";
         }
 
+        public SQLiteConnectionBaseInfo() { }
+
         public SQLiteConnectionBaseInfo(string dataSource)
         {
             DataSource = dataSource;
