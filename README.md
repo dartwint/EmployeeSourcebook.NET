@@ -1,20 +1,20 @@
 ## Requirements
 
 - .NET 8.0 Runtime (Windows)
+- PostgreSQL Server **17** (optional)
 
-## Функциональные возможности
+## Features
 
-- Подключение к базе данных PostgreSQL, включая настройку параметров подключения и их сохранение
-- Отображение списка сотрудников: по ID или первые N записей
-- Добавление новых записей
-- Редактирование и удаление по ID, а также по выбору в таблице
-- Валидация пользовательского ввода
+- Connecting to one of the databases:
+- PostgreSQL, SQLite
+- Configuring connection settings and saving them
+- Operations with database table records: create, read, update, delete
+- Record filter
+- Validation of user input
 
-## Технологии
+## Technology stack
 
 - .NET 8.0
 - Windows Forms
-- Entity Framework Core **9.0.1**
-- Npgsql — провайдер PostgreSQL для Entity Framework Core
 - PostgreSQL Server **17**
 - C#
