@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EmployeeSourcebook.Views
 {
@@ -15,24 +16,65 @@ namespace EmployeeSourcebook.Views
     {
         public event Action? ButtonConnectionSettingsClick;
         public event Action? ButtonSettingsClick;
-        public event Action<Button>? ButtonNextTableClick;
-        public event Action<Button>? ButtonPreviousTableClick;
+        public event Action<TableTab>? TableTabSelected;
+
+        public DataGridView DataGridView => dataGridViewEmployees;
+
+        //public event Action<Button>? ButtonNextTableClick;
+        //public event Action<Button>? ButtonPreviousTableClick;
 
         private TableTab? _selectedTableTab = null;
-        private CustomTabControl _tabControl;
 
         private int _originalTabPanelHeight;
 
         public FormMain()
         {
             InitializeComponent();
-            _tabControl = new CustomTabControl();
 
             _originalTabPanelHeight = flowLayoutPanelDbTables.Height;
 
             labelConnectionStatus.Text = "Not connected";
             labelLastConnectionStatusUpdateAt.Text = string.Empty;
             labelLastConnectionStatusUpdateTime.Text = string.Empty;
+        }
+
+        public void SetTablesTabs(List<TableTab>? tabs)
+        {
+            if (tabs == null || tabs.Count == 0)
+            {
+                var controlsToRemove = flowLayoutPanelDbTables.Controls
+                    .OfType<TableTab>()
+                    .ToArray();
+
+                foreach (var tableTab in controlsToRemove)
+                {
+                    flowLayoutPanelDbTables.Controls.Remove(tableTab);
+                    tableTab.Dispose();
+                }
+                return;
+            }
+
+            var decorator = new TabButtonDecorator<TableTab>();
+
+            flowLayoutPanelDbTables.WrapContents = false;
+            flowLayoutPanelDbTables.AutoScroll = true;
+            flowLayoutPanelDbTables.HorizontalScroll.Visible = true;
+            flowLayoutPanelDbTables.VerticalScroll.Enabled = false;
+
+            foreach (var tab in tabs)
+            {
+                var size = TextRenderer.MeasureText(tab.Text, tab.Font);
+                tab.Width = size.Width + 15;
+                tab.Height = Math.Max(size.Height,
+                    _originalTabPanelHeight - SystemInformation.HorizontalScrollBarHeight);
+
+                decorator.DecorateAsNotSelected(tab);
+                tab.Click += OnButtonTabClicked;
+
+                flowLayoutPanelDbTables.Controls.Add(tab);
+            }
+
+            flowLayoutPanelDbTables.HorizontalScroll.SmallChange = tabs[0].Width;
         }
 
         public void SetConnectionStateInfo(ConnectionState connectionState)
@@ -90,50 +132,17 @@ namespace EmployeeSourcebook.Views
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            AddDummyTabsForDbTables();
+            
+        }
+
+        private void OnTableTabSelected(TableTab tab)
+        {
+            TableTabSelected?.Invoke(tab);
         }
 
         private void connectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ButtonConnectionSettingsClick?.Invoke();
-        }
-
-        private void AddDummyTabsForDbTables()
-        {
-            var buttons = new List<TableTab>();
-            var decorator = new TabButtonDecorator<TableTab>();
-
-            flowLayoutPanelDbTables.WrapContents = false;
-            flowLayoutPanelDbTables.AutoScroll = true;
-            flowLayoutPanelDbTables.HorizontalScroll.Visible = true;
-            flowLayoutPanelDbTables.VerticalScroll.Enabled = false;
-
-            for (int i = 0; i < 16; i++)
-            {
-                var button = new TableTab
-                {
-                    AutoSize = false,
-                    Text = $"Button{i}",
-                    Margin = Padding.Empty,
-                    Padding = Padding.Empty,
-                    FlatStyle = FlatStyle.Flat,
-                    Anchor = AnchorStyles.Left | AnchorStyles.Top,
-                    //Height = _originalTabPanelHeight - SystemInformation.HorizontalScrollBarHeight
-                };
-
-                var size = TextRenderer.MeasureText(button.Text, button.Font);
-                button.Width = size.Width + 15;
-                button.Height = Math.Max(size.Height,
-                    _originalTabPanelHeight - SystemInformation.HorizontalScrollBarHeight);
-
-                decorator.DecorateAsNotSelected(button);
-                button.Click += OnButtonTabClicked;
-                buttons.Add(button);
-
-                flowLayoutPanelDbTables.Controls.Add(button);
-            }
-
-            flowLayoutPanelDbTables.HorizontalScroll.SmallChange = buttons[0].Width;
         }
 
         private void OnButtonTabClicked(object? sender, EventArgs e)
@@ -151,7 +160,7 @@ namespace EmployeeSourcebook.Views
                 _selectedTableTab = tableTab;
                 decorator.DecorateAsSelected(_selectedTableTab);
 
-                _tabControl.SelectTab(tableTab);
+                OnTableTabSelected(tableTab);
             }
         }
 

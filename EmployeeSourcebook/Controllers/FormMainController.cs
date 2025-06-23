@@ -27,7 +27,7 @@ namespace EmployeeSourcebook.Controllers
             _formMain.ButtonConnectionSettingsClick += ShowFormConnection;
             _formMain.ButtonSettingsClick += ShowFormSettings;
 
-            Test();
+            //Test();
         }
 
         private void Test()

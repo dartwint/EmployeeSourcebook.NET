@@ -29,9 +29,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="SQL queries\PostgreSQL\TablesList.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SQL queries\PostgreSQL\Test.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SQL queries\SQLite\TablesList.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="SQL queries\SQLite\Test.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\DbTables\" />
   </ItemGroup>
 
 </Project>

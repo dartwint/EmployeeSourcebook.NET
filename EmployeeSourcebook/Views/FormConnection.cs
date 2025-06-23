@@ -126,8 +126,11 @@ namespace EmployeeSourcebook.Views
                 control.Hide();
             }
 
-            tableLayoutPanelConnectionFieldsRoot.SetRow(_containersMap[_selectedDbProvider], 1);
-            _containersMap[_selectedDbProvider].Show();
+            if (_selectedDbProvider != DbProvider.None)
+            {
+                tableLayoutPanelConnectionFieldsRoot.SetRow(_containersMap[_selectedDbProvider], 1);
+                _containersMap[_selectedDbProvider].Show();
+            }
         }
 
         private bool UpdateConnectionInfo()

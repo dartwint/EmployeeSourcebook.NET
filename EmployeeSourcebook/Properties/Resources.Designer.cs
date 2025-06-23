@@ -79,6 +79,15 @@ namespace EmployeeSourcebook.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на SQL queries/PostgreSQL/TablesList.sql.
+        /// </summary>
+        internal static string PostgreSQLListTablesCommand {
+            get {
+                return ResourceManager.GetString("PostgreSQLListTablesCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ResetImage {
@@ -112,6 +121,15 @@ namespace EmployeeSourcebook.Properties {
         internal static string SQLiteDbPath {
             get {
                 return ResourceManager.GetString("SQLiteDbPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SQL queries/SQLite/TablesList.sql.
+        /// </summary>
+        internal static string SQLiteListTablesCommand {
+            get {
+                return ResourceManager.GetString("SQLiteListTablesCommand", resourceCulture);
             }
         }
     }

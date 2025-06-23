@@ -136,4 +136,10 @@
   <data name="SettingsUserDataXMLPath" xml:space="preserve">
     <value>userdata/userSettingsData.xml</value>
   </data>
+  <data name="SQLiteListTablesCommand" xml:space="preserve">
+    <value>SQL queries/SQLite/TablesList.sql</value>
+  </data>
+  <data name="PostgreSQLListTablesCommand" xml:space="preserve">
+    <value>SQL queries/PostgreSQL/TablesList.sql</value>
+  </data>
 </root>
