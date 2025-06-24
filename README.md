@@ -10,11 +10,9 @@
 - Configuring connection settings and saving them
 - Operations with database table records: create, read, update, delete
 - Record filter
-- Validation of user input
 
 ## Technology stack
 
-- .NET 8.0
-- Windows Forms
+- .NET 8.0 | C# | Windows Forms
+- SQLite
 - PostgreSQL Server **17**
-- C#

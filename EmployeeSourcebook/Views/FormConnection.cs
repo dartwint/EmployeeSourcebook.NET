@@ -1,7 +1,6 @@
-﻿using EmployeeSourcebook.Controllers;
-using EmployeeSourcebook.DbAccess.Model;
+﻿using EmployeeSourcebook.DbAccess.Model;
 using EmployeeSourcebook.Domain;
-using EmployeeSourcebook.Models;
+using EmployeeSourcebook.UserData;
 using System.Data;
 
 namespace EmployeeSourcebook.Views
@@ -17,10 +16,28 @@ namespace EmployeeSourcebook.Views
         public event Action<IConnectionInfo?>? ConnectionInfoChanged;
         public event Action<IConnectionInfo?>? ConnectionRequested;
 
+        public event Action? UserDataSaveRequested;
+        public event Action? CloseRequested;
+
+        public ConnectionUserData? UserData
+        {
+            get
+            {
+                return _userData;
+            }
+            set
+            {
+                _userData = value;
+                OnUserDataLoaded();
+            }
+        }
+
         private DbProvider _selectedDbProvider = DbProvider.None;
         private Dictionary<DbProvider, Control> _containersMap = new();
 
         private Color _buttonSaveOrigColor;
+
+        private ConnectionUserData? _userData;
 
         public FormConnection()
         {
@@ -37,47 +54,21 @@ namespace EmployeeSourcebook.Views
             _buttonSaveOrigColor = buttonSaveAndClose.BackColor;
             buttonSaveAndClose.Enabled = false;
             buttonSaveAndClose.BackColor = Color.DarkGray;
-
-            LoadData();
-            ShowAvailableFields();
         }
 
-        private ConnectionUserData? _userData;
-
-        private void LoadData()
+        public void LockOnConnection()
         {
-            _userData = UserDataManager.LoadData<ConnectionUserData>(ConnectionUserData.dataPath);
-
-            if (_userData.SelectedProvider != DbProvider.None)
-                comboBoxDbProvider.SelectedItem = _userData.SelectedProvider;
-            _selectedDbProvider = _userData.SelectedProvider;
-            textBoxFileSource.Text = _userData.SQLiteConnectionInfo.DataSource;
-            textBoxHost.Text = _userData.PosgreSQLConnectionInfo.Host;
-            textBoxPort.Text = _userData.PosgreSQLConnectionInfo.Port;
-            textBoxUsername.Text = _userData.PosgreSQLConnectionInfo.Username;
-            textBoxPassword.Text = _userData.PosgreSQLConnectionInfo.Password;
-            textBoxDatabase.Text = _userData.PosgreSQLConnectionInfo.Database;
+            buttonTestConnection.Enabled = false;
+            Cursor = Cursors.WaitCursor;
         }
 
-        private void SaveData()
+        public void UnlockOnConnection()
         {
-            if (_userData == null)
-                _userData = new();
-
-            _userData.SelectedProvider = _selectedDbProvider;
-            _userData.SQLiteConnectionInfo = new SQLiteConnectionBaseInfo(textBoxFileSource.Text);
-            _userData.PosgreSQLConnectionInfo = new PosgreSQLConnectionBaseInfo(
-                host: textBoxHost.Text,
-                port: textBoxPort.Text,
-                username: textBoxUsername.Text,
-                password: textBoxPassword.Text,
-                database: textBoxDatabase.Text
-                );
-
-            UserDataManager.SaveData(_userData, ConnectionUserData.dataPath);
+            buttonTestConnection.Enabled = true;
+            Cursor = Cursors.Default;
         }
 
-        public void SetConnectionStatus(ConnectionState connectionState)
+        public void UpdateConnectionStatus(ConnectionState connectionState)
         {
             switch (connectionState)
             {
@@ -111,10 +102,54 @@ namespace EmployeeSourcebook.Views
             }
         }
 
+        private void OnUserDataLoaded()
+        {
+            if (_userData == null)
+                _userData = new();
+
+            _selectedDbProvider = _userData.SelectedProvider;
+            if (_selectedDbProvider != DbProvider.None)
+                comboBoxDbProvider.SelectedItem = _userData.SelectedProvider;
+            _selectedDbProvider = _userData.SelectedProvider;
+            textBoxFileSource.Text = _userData.SQLiteConnectionInfo.DataSource;
+            textBoxHost.Text = _userData.PosgreSQLConnectionInfo.Host;
+            textBoxPort.Text = _userData.PosgreSQLConnectionInfo.Port;
+            textBoxUsername.Text = _userData.PosgreSQLConnectionInfo.Username;
+            textBoxPassword.Text = _userData.PosgreSQLConnectionInfo.Password;
+            textBoxDatabase.Text = _userData.PosgreSQLConnectionInfo.Database;
+
+            ShowAvailableFields();
+        }
+
+        private void OnUserDataSaveRequest()
+        {
+            if (_userData == null)
+                _userData = new();
+
+            _userData.SelectedProvider = _selectedDbProvider;
+            _userData.SQLiteConnectionInfo = new SQLiteConnectionBaseInfo(textBoxFileSource.Text);
+            _userData.PosgreSQLConnectionInfo = new PosgreSQLConnectionBaseInfo(
+                host: textBoxHost.Text,
+                port: textBoxPort.Text,
+                username: textBoxUsername.Text,
+                password: textBoxPassword.Text,
+                database: textBoxDatabase.Text
+                );
+
+            UserDataSaveRequested?.Invoke();
+        }
+
         private void comboBoxcomboBoxDbProvider_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (comboBoxDbProvider.SelectedItem != null)
+            {
                 _selectedDbProvider = (DbProvider) comboBoxDbProvider.SelectedItem;
+                buttonTestConnection.Enabled = true;
+            }
+            else
+            {
+                buttonTestConnection.Enabled = false;
+            }
 
             ShowAvailableFields();
         }
@@ -130,12 +165,15 @@ namespace EmployeeSourcebook.Views
             {
                 tableLayoutPanelConnectionFieldsRoot.SetRow(_containersMap[_selectedDbProvider], 1);
                 _containersMap[_selectedDbProvider].Show();
+
+                buttonTestConnection.Enabled = true;
             }
         }
 
-        private bool UpdateConnectionInfo()
+        private void UpdateConnectionInfo(out bool connectionChanged)
         {
             IConnectionInfo? newConnectionInfo = null;
+            connectionChanged = false;
 
             switch (_selectedDbProvider)
             {
@@ -169,30 +207,14 @@ namespace EmployeeSourcebook.Views
                     ConnectionInfo.GetConnectionString())
                 {
                     ConnectionInfo = newConnectionInfo;
-                    OnConnectionInfoChanged(ConnectionInfo);
-                    return true;
+                    connectionChanged = true;
                 }
             }
             else if (ConnectionInfo != null)
             {
                 ConnectionInfo = newConnectionInfo;
-                OnConnectionInfoChanged(ConnectionInfo);
-                return true;
+                connectionChanged = true;
             }
-
-            return false;
-        }
-
-        public void LockOnConnection()
-        {
-            buttonTestConnection.Enabled = false;
-            Cursor = Cursors.WaitCursor;
-        }
-
-        public void UnlockOnConnection()
-        {
-            buttonTestConnection.Enabled = true;
-            Cursor = Cursors.Default;
         }
 
         private void buttonTestConnection_Click(object sender, EventArgs e)
@@ -202,23 +224,23 @@ namespace EmployeeSourcebook.Views
                 return;
             }
 
-            if (UpdateConnectionInfo())
-            {
-                //ConnectionRequested?.Invoke(ConnectionInfo);
-            }
+            UpdateConnectionInfo(out bool connectionChanged);
+            if (connectionChanged)
+                OnConnectionInfoChanged();
+
             ConnectionRequested?.Invoke(ConnectionInfo);
         }
 
-        private void OnConnectionInfoChanged(IConnectionInfo? connectionInfo)
+        private void OnConnectionInfoChanged()
         {
             ConnectionInfoChanged?.Invoke(ConnectionInfo);
         }
 
         private void buttonSaveAndClose_Click(object sender, EventArgs e)
         {
-            SaveData();
+            OnUserDataSaveRequest();
 
-            Close();
+            CloseRequested?.Invoke();
         }
 
         private void buttonSelectFileSource_Click(object sender, EventArgs e)

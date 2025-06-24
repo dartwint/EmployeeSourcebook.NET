@@ -1,6 +1,6 @@
 ﻿using EmployeeSourcebook.Properties;
 
-namespace EmployeeSourcebook.Models
+namespace EmployeeSourcebook.UserData
 {
     public class SettingsUserData
     {
@@ -16,7 +16,7 @@ namespace EmployeeSourcebook.Models
             }
         }
 
-        public static readonly string dataPath = Resources.SettingsUserDataXMLPath;
+        public static readonly string dataPath = Resources.SettingsUserDataXMLFile;
 
         public bool EnableConnectionPing { get; set; }
         public int ConnectionRetriesCount { get; set; }

@@ -49,14 +49,13 @@ CREATE TABLE IF NOT EXISTS "DepartmentHeads" (
 	PRIMARY KEY ("DepartmentId")
 );
 
-ALTER TABLE "Employees" ADD CONSTRAINT "Employees_fk5" FOREIGN KEY ("PositionId") REFERENCES "Positions"("Id");
+ALTER TABLE "Employees" ADD CONSTRAINT "Employees_fk1" FOREIGN KEY ("PositionId") REFERENCES "Positions"("Id");
 
-ALTER TABLE "Employees" ADD CONSTRAINT "Employees_fk6" FOREIGN KEY ("DepartmentId") REFERENCES "Departments"("Id");
+ALTER TABLE "Employees" ADD CONSTRAINT "Employees_fk2" FOREIGN KEY ("DepartmentId") REFERENCES "Departments"("Id");
 
-ALTER TABLE "Employees" ADD CONSTRAINT "Employees_fk7" FOREIGN KEY ("AddressId") REFERENCES "Addresses"("Id");
+ALTER TABLE "Employees" ADD CONSTRAINT "Employees_fk3" FOREIGN KEY ("AddressId") REFERENCES "Addresses"("Id");
 
-ALTER TABLE "Employees" ADD CONSTRAINT "Employees_fk8" FOREIGN KEY ("EmployeeRoleId") REFERENCES "EmployeeRoles"("Id");
-
+ALTER TABLE "Employees" ADD CONSTRAINT "Employees_fk4" FOREIGN KEY ("EmployeeRoleId") REFERENCES "EmployeeRoles"("Id");
 
 
 ALTER TABLE "EmployeesHierarchy" ADD CONSTRAINT "EmployeesHierarchy_fk0" FOREIGN KEY ("AncestorId") REFERENCES "Employees"("Id");

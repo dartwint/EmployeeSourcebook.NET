@@ -2,7 +2,7 @@
 using EmployeeSourcebook.Properties;
 using static EmployeeSourcebook.Views.FormConnection;
 
-namespace EmployeeSourcebook.Models
+namespace EmployeeSourcebook.UserData
 {
     public class ConnectionUserData
     {
@@ -18,7 +18,7 @@ namespace EmployeeSourcebook.Models
             }
         }
 
-        public static readonly string dataPath = Resources.ConnectionUserDataXMLPath;
+        public static readonly string dataPath = Resources.ConnectionUserDataXMLFile;
 
         public DbProvider SelectedProvider { get; set; }
         public PosgreSQLConnectionBaseInfo PosgreSQLConnectionInfo { get; set; }
@@ -37,7 +37,7 @@ namespace EmployeeSourcebook.Models
                 );
 
             SQLiteConnectionInfo = new SQLiteConnectionBaseInfo(
-                dataSource: Resources.SQLiteDbPath);
+                dataSource: Resources.SqliteDbFile);
         }
     }
 }

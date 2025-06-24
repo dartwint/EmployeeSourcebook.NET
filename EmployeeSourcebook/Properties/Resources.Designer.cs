@@ -63,27 +63,36 @@ namespace EmployeeSourcebook.Properties {
         /// <summary>
         ///   Ищет локализованную строку, похожую на userdata/userConnectionData.xml.
         /// </summary>
-        internal static string ConnectionUserDataXMLPath {
+        internal static string ConnectionUserDataXMLFile {
             get {
-                return ResourceManager.GetString("ConnectionUserDataXMLPath", resourceCulture);
+                return ResourceManager.GetString("ConnectionUserDataXMLFile", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на SQL queries/PostgreSQL/Test.sql.
+        ///   Ищет локализованную строку, похожую на SQL queries/PostgreSQL/CreateTables.sql.
         /// </summary>
-        internal static string PostgreSQLDatabaseCreationCommandFile {
+        internal static string NpsqlDbCreationCmdFile {
             get {
-                return ResourceManager.GetString("PostgreSQLDatabaseCreationCommandFile", resourceCulture);
+                return ResourceManager.GetString("NpsqlDbCreationCmdFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SQL queries/PostgreSQL/InsertDummy.sql.
+        /// </summary>
+        internal static string NpsqlInsertDummyRecordsCmdFile {
+            get {
+                return ResourceManager.GetString("NpsqlInsertDummyRecordsCmdFile", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на SQL queries/PostgreSQL/TablesList.sql.
         /// </summary>
-        internal static string PostgreSQLListTablesCommand {
+        internal static string NpsqlListTablesCmdFile {
             get {
-                return ResourceManager.GetString("PostgreSQLListTablesCommand", resourceCulture);
+                return ResourceManager.GetString("NpsqlListTablesCmdFile", resourceCulture);
             }
         }
         
@@ -100,36 +109,45 @@ namespace EmployeeSourcebook.Properties {
         /// <summary>
         ///   Ищет локализованную строку, похожую на userdata/userSettingsData.xml.
         /// </summary>
-        internal static string SettingsUserDataXMLPath {
+        internal static string SettingsUserDataXMLFile {
             get {
-                return ResourceManager.GetString("SettingsUserDataXMLPath", resourceCulture);
+                return ResourceManager.GetString("SettingsUserDataXMLFile", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на SQL queries/SQLite/Test.sql.
+        ///   Ищет локализованную строку, похожую на SQL queries/SQLite/CreateTables.sql.
         /// </summary>
-        internal static string SQLiteDatabaseCreationCommandFile {
+        internal static string SqliteDbCreationCmdFile {
             get {
-                return ResourceManager.GetString("SQLiteDatabaseCreationCommandFile", resourceCulture);
+                return ResourceManager.GetString("SqliteDbCreationCmdFile", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на SQLite/EmployeesSourcebook.db.
         /// </summary>
-        internal static string SQLiteDbPath {
+        internal static string SqliteDbFile {
             get {
-                return ResourceManager.GetString("SQLiteDbPath", resourceCulture);
+                return ResourceManager.GetString("SqliteDbFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SQL queries/SQLite/InsertDummy.sql.
+        /// </summary>
+        internal static string SqliteInsertDummyRecordsCmdFile {
+            get {
+                return ResourceManager.GetString("SqliteInsertDummyRecordsCmdFile", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на SQL queries/SQLite/TablesList.sql.
         /// </summary>
-        internal static string SQLiteListTablesCommand {
+        internal static string SqliteListTablesCmdFile {
             get {
-                return ResourceManager.GetString("SQLiteListTablesCommand", resourceCulture);
+                return ResourceManager.GetString("SqliteListTablesCmdFile", resourceCulture);
             }
         }
     }

@@ -121,25 +121,31 @@
   <data name="ResetImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ResetImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SQLiteDbPath" xml:space="preserve">
+  <data name="SqliteDbFile" xml:space="preserve">
     <value>SQLite/EmployeesSourcebook.db</value>
   </data>
-  <data name="PostgreSQLDatabaseCreationCommandFile" xml:space="preserve">
-    <value>SQL queries/PostgreSQL/Test.sql</value>
+  <data name="NpsqlDbCreationCmdFile" xml:space="preserve">
+    <value>SQL queries/PostgreSQL/CreateTables.sql</value>
   </data>
-  <data name="SQLiteDatabaseCreationCommandFile" xml:space="preserve">
-    <value>SQL queries/SQLite/Test.sql</value>
+  <data name="SqliteDbCreationCmdFile" xml:space="preserve">
+    <value>SQL queries/SQLite/CreateTables.sql</value>
   </data>
-  <data name="ConnectionUserDataXMLPath" xml:space="preserve">
+  <data name="ConnectionUserDataXMLFile" xml:space="preserve">
     <value>userdata/userConnectionData.xml</value>
   </data>
-  <data name="SettingsUserDataXMLPath" xml:space="preserve">
+  <data name="SettingsUserDataXMLFile" xml:space="preserve">
     <value>userdata/userSettingsData.xml</value>
   </data>
-  <data name="SQLiteListTablesCommand" xml:space="preserve">
+  <data name="SqliteListTablesCmdFile" xml:space="preserve">
     <value>SQL queries/SQLite/TablesList.sql</value>
   </data>
-  <data name="PostgreSQLListTablesCommand" xml:space="preserve">
+  <data name="NpsqlListTablesCmdFile" xml:space="preserve">
     <value>SQL queries/PostgreSQL/TablesList.sql</value>
+  </data>
+  <data name="NpsqlInsertDummyRecordsCmdFile" xml:space="preserve">
+    <value>SQL queries/PostgreSQL/InsertDummy.sql</value>
+  </data>
+  <data name="SqliteInsertDummyRecordsCmdFile" xml:space="preserve">
+    <value>SQL queries/SQLite/InsertDummy.sql</value>
   </data>
 </root>

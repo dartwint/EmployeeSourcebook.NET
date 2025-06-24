@@ -1,126 +1,83 @@
 ﻿using EmployeeSourcebook.DbAccess.Connection;
 using EmployeeSourcebook.DbAccess.Management;
 using EmployeeSourcebook.DbAccess.Model;
-using EmployeeSourcebook.Properties;
 using EmployeeSourcebook.Views;
-using Microsoft.Data.Sqlite;
-using Npgsql;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 
 namespace EmployeeSourcebook.Controllers
 {
-    internal class ConnectionController
+    public class ConnectionController
     {
+        private DbConnection? _dbConnection;
+
+        public DbConnection? DbConnection
+        {
+            get
+            {
+                return _dbConnection;
+            }
+            private set
+            {
+                if (value == null && _dbConnection != null)
+                {
+                    _dbConnection.Close();
+                    _dbConnection?.Dispose();
+                    _dbConnection = null;
+
+                    OnConnectionChanged();
+
+                    return;
+                }
+
+                if (value != _dbConnection)
+                {
+                    _dbConnection = value;
+                    OnConnectionChanged();
+
+                    return;
+                }
+                //else if (value != null && _dbConnection != null && value.ConnectionString.Equals(_dbConnection.ConnectionString))
+                //{
+
+                //}
+
+                _dbConnection = value;
+                OnConnectionChanged();
+            }
+        }
+
+        public event Action<DbConnection?>? ConnectionChanged;
+        public event Action<ConnectionState>? ConnectionStateUpdated;
+
         private FormConnection _formConnection;
         private FormMain _formMain;
-        private ConnectionMonitor? _connectionMonitor;
+        private ConnectionMonitor _connectionMonitor;
 
         public ConnectionController(FormConnection formConnection, FormMain formMain)
         {
             _formConnection = formConnection;
             _formMain = formMain;
+            _connectionMonitor = new ConnectionMonitor();
 
-            _formConnection.ConnectionRequested += OnConnectionTestRequested;
             _formConnection.FormClosed += OnFormConnectionClosed;
             _formConnection.Load += OnFormConnectionOpened;
-            _formMain.TableTabSelected += OnTableTabSelected;
-        }
 
-        private void SetDataToGridView(DataGridView dataGridView, object? data)
-        {
-            //dataGridView.DataSource = new BindingList<>();
-            dataGridView.DataSource = data;
-        }
-
-        private void OnTableTabSelected(TableTab tableTab)
-        {
-            if (_connectionMonitor == null || _connectionMonitor.DbConnection.State != ConnectionState.Open)
-            {
-                return;
-            }
-
-            string tableName = tableTab.Text;
-            var data = UserActionToSQLCommand.GetDataFromTable(new SQLExecutor(), 
-                _connectionMonitor.DbConnection, tableName);
-
-            
-            if (_formMain.InvokeRequired)
-            {
-                _formMain.Invoke(() => SetDataToGridView(_formMain.DataGridView, data));
-            }
-            else
-            {
-                SetDataToGridView(_formMain.DataGridView, data);
-            }
+            //DbConnection.StateChange += OnDbConnectionStateChanged;
         }
 
         private void OnFormConnectionClosed(object? sender, FormClosedEventArgs e)
         {
-            if (_connectionMonitor != null)
-            {
-                _connectionMonitor.ConnectionAttempt += UpdateFormMain;
+            if (DbConnection != null && DbConnection.State == ConnectionState.Open)
                 _connectionMonitor.Start(new TimeSpan(0, 0, 2), 2);
-
-                
-                _formMain.SetTablesTabs(CreateTabs());
-            }
-        }
-
-        private List<TableTab>? CreateTabs()
-        {
-            if (_connectionMonitor == null || _connectionMonitor.DbConnection.State != ConnectionState.Open)
-                return null;
-
-            string? commandFile = GetListTablesCommandFileFromRepository(_connectionMonitor.DbConnection.GetType());
-            if (commandFile != null)
-            {
-                DbCommand command = _connectionMonitor.DbConnection.CreateCommand();
-                command.CommandText = File.ReadAllText(commandFile);
-
-                var executor = new SQLExecutor();
-                var listExecResult = executor.Execute(_connectionMonitor.DbConnection, command.CommandText);
-                List<TableTab> tabs = new();
-                foreach (var item in listExecResult)
-                {
-                    tabs.Add(new TableTab(item));
-                }
-
-                return tabs;
-            }
-
-            return null;
-        }
-
-        private string? GetListTablesCommandFileFromRepository(Type type) 
-        {
-            if (!type.IsAssignableTo(typeof(DbConnection)))
-                return null;
-
-            if (type.IsAssignableFrom(typeof(SqliteConnection)))
-            {
-                return Resources.SQLiteListTablesCommand;
-            }
-
-            if (type.IsAssignableFrom(typeof(NpgsqlConnection)))
-            {
-                return Resources.PostgreSQLListTablesCommand;
-            }
-
-            return null;
         }
 
         private void OnFormConnectionOpened(object? sender, EventArgs e)
         {
-            if (_connectionMonitor != null)
-            {
-                _connectionMonitor.ConnectionAttempt -= UpdateFormMain;
-                _connectionMonitor.Stop();
-            }
+            _connectionMonitor.Stop();
         }
 
-        private void OnConnectionTestRequested(IConnectionInfo? connectionInfo)
+        public void TryConfigureConnection(IConnectionInfo? connectionInfo)
         {
             if (connectionInfo == null)
                 return;
@@ -132,14 +89,15 @@ namespace EmployeeSourcebook.Controllers
                 _connectionMonitor.Stop();
             }
 
-            _formConnection.SetConnectionStatus(ConnectionState.Connecting);
+            _formConnection.UpdateConnectionStatus(ConnectionState.Connecting);
+            _formConnection.Update();
 
             var connectionFactory = new DbConnectionFactory();
             Exception? exception;
             var connection = connectionFactory.Create(connectionInfo, out exception);
             if (connection == null)
             {
-                _formConnection.SetConnectionStatus(ConnectionState.Broken);
+                _formConnection.UpdateConnectionStatus(ConnectionState.Broken);
 
                 string message = "You entered incorrect data.\n" +
                     "Please, check your input and retry again.";
@@ -148,47 +106,57 @@ namespace EmployeeSourcebook.Controllers
 
                 MessageBox.Show(message, "Connection error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                DbConnection = null;
                 
                 return;
             }
 
-            _connectionMonitor = new ConnectionMonitor(connection);
+            DbConnection = connection;
+            DbConnection.Disposed += OnDbConnectionDisposed;
+            DbConnection.StateChange += OnDbConnectionStateChanged;
+
+            _connectionMonitor = new ConnectionMonitor(DbConnection);
 
             bool connectionResult = _connectionMonitor.TryConnect();
             if (connectionResult)
             {
-                UpdateFormConnection(ConnectionState.Open);
+                ConnectionStateUpdated?.Invoke(ConnectionState.Open);
+
+                //if (_connectionMonitor.DbConnection != null)
+                //    WriteDummyDataToDb(_connectionMonitor.DbConnection);
             }
             else
             {
-                UpdateFormConnection(ConnectionState.Broken);
+                ConnectionStateUpdated?.Invoke(ConnectionState.Broken);
             }
 
             _formConnection.UnlockOnConnection();
         }
 
-        private void UpdateFormConnection(ConnectionState connectionState)
+        private void OnConnectionChanged()
         {
-            if (_formConnection.InvokeRequired)
-            {
-                _formConnection.Invoke(() => _formConnection.SetConnectionStatus(connectionState));
-            }
-            else
-            {
-                _formConnection.SetConnectionStatus(connectionState);
-            }
+            if (DbConnection != null)
+                _connectionMonitor.UpdateConnection(DbConnection);
+
+            ConnectionChanged?.Invoke(DbConnection);
         }
 
-        private void UpdateFormMain(ConnectionState connectionState)
+        private void OnDbConnectionDisposed(object? sender, EventArgs e)
         {
-            if (_formMain.InvokeRequired)
+            _dbConnection = null;
+        }
+
+        private void OnDbConnectionStateChanged(object sender, StateChangeEventArgs e)
+        {
+            if (DbConnection == null)
             {
-                _formMain.Invoke(() => _formMain.SetConnectionStateInfo(connectionState));
+                ConnectionStateUpdated?.Invoke(ConnectionState.Closed);
             }
             else
             {
-                _formMain.SetConnectionStateInfo(connectionState);
-            }
+                ConnectionStateUpdated?.Invoke(DbConnection.State);
+            }  
         }
     }
 }

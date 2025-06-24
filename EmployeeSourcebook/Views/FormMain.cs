@@ -1,14 +1,5 @@
 ﻿using EmployeeSourcebook.Domain;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EmployeeSourcebook.Views
 {
@@ -19,9 +10,6 @@ namespace EmployeeSourcebook.Views
         public event Action<TableTab>? TableTabSelected;
 
         public DataGridView DataGridView => dataGridViewEmployees;
-
-        //public event Action<Button>? ButtonNextTableClick;
-        //public event Action<Button>? ButtonPreviousTableClick;
 
         private TableTab? _selectedTableTab = null;
 
@@ -38,19 +26,25 @@ namespace EmployeeSourcebook.Views
             labelLastConnectionStatusUpdateTime.Text = string.Empty;
         }
 
-        public void SetTablesTabs(List<TableTab>? tabs)
+        private void RemoveTableTabs()
         {
+            var controlsToRemove = flowLayoutPanelDbTables.Controls
+                .OfType<TableTab>()
+                .ToArray();
+
+            foreach (var tableTab in controlsToRemove)
+            {
+                flowLayoutPanelDbTables.Controls.Remove(tableTab);
+                tableTab.Dispose();
+            }
+        }
+
+        public void UpdateTablesTabs(List<TableTab>? tabs)
+        {
+            RemoveTableTabs();
+
             if (tabs == null || tabs.Count == 0)
             {
-                var controlsToRemove = flowLayoutPanelDbTables.Controls
-                    .OfType<TableTab>()
-                    .ToArray();
-
-                foreach (var tableTab in controlsToRemove)
-                {
-                    flowLayoutPanelDbTables.Controls.Remove(tableTab);
-                    tableTab.Dispose();
-                }
                 return;
             }
 

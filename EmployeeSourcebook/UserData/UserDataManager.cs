@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace EmployeeSourcebook.Controllers
+namespace EmployeeSourcebook.UserData
 {
     public static class UserDataManager
     {

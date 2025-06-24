@@ -5,8 +5,8 @@ namespace EmployeeSourcebook.DbAccess.Management
 {
     public class DummyDbAdminController
     {
-        private readonly string _testSQLCommandPath = Resources.SQLiteDatabaseCreationCommandFile;
-        private readonly string _SQLiteDbPath = Resources.SQLiteDbPath;
+        private readonly string _testSQLCommandPath = Resources.SqliteDbCreationCmdFile;
+        private readonly string _SQLiteDbPath = Resources.SqliteDbFile;
 
         //private ConnectionMonitor _connectionMonitor;
 

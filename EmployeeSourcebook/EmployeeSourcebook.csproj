@@ -29,22 +29,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="SQL queries\PostgreSQL\InsertDummy.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="SQL queries\PostgreSQL\TablesList.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="SQL queries\PostgreSQL\Test.sql">
+    <None Update="SQL queries\PostgreSQL\CreateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SQL queries\SQLite\InsertDummy.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SQL queries\SQLite\TablesList.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="SQL queries\SQLite\Test.sql">
+    <None Update="SQL queries\SQLite\CreateTables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\DbTables\" />
   </ItemGroup>
 
 </Project>

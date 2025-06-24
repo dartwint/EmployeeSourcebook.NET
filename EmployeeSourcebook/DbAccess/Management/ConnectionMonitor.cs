@@ -1,5 +1,4 @@
-﻿using EmployeeSourcebook.DbAccess.Management.ConnectionChecker;
-using System.Data;
+﻿using System.Data;
 using System.Data.Common;
 
 namespace EmployeeSourcebook.DbAccess.Management
@@ -8,15 +7,17 @@ namespace EmployeeSourcebook.DbAccess.Management
     {
         public bool IsRunning { get; private set; }
 
-        public DbConnection DbConnection => _connection;
+        public DbConnection? DbConnection => _connection;
 
         public event Action<ConnectionState>? ConnectionAttempt;
 
-        private DbConnection _connection;
+        private DbConnection? _connection;
         private CancellationTokenSource? _cts;
         private Task? _monitoringTask;
         private readonly object _lock = new();
         private int _retriesCount, _retriesCountLeft;
+
+        public ConnectionMonitor() { }
 
         public ConnectionMonitor(DbConnection connection)
         {
@@ -27,6 +28,10 @@ namespace EmployeeSourcebook.DbAccess.Management
         {
             lock (_lock)
             {
+                if (_connection == null)
+                    //throw new InvalidOperationException("Nothing to monitor: dbConnection is not set");
+                    return;
+
                 if (IsRunning)
                     throw new InvalidOperationException("Monitoring already started.");
 
@@ -53,7 +58,7 @@ namespace EmployeeSourcebook.DbAccess.Management
             }
         }
 
-        public void ChangeConnection(DbConnection connection)
+        public void UpdateConnection(DbConnection connection)
         {
             Stop();
 
@@ -62,6 +67,10 @@ namespace EmployeeSourcebook.DbAccess.Management
 
         public async Task<bool> TryConnectAsync(CancellationToken token = default)
         {
+            if (_connection == null)
+                //throw new InvalidOperationException("DbConnection is not set");
+                return false;
+
             try
             {
                 await _connection.OpenAsync(token);
@@ -75,6 +84,10 @@ namespace EmployeeSourcebook.DbAccess.Management
 
         public bool TryConnect()
         {
+            if (_connection == null)
+                //throw new InvalidOperationException("DbConnection is not set");
+                return false;
+
             try
             {
                 _connection.Open();
@@ -88,7 +101,7 @@ namespace EmployeeSourcebook.DbAccess.Management
 
         private async Task MonitorAsync(TimeSpan interval, CancellationToken token)
         {
-            while (!token.IsCancellationRequested)
+            while (!token.IsCancellationRequested || DbConnection != null)
             {
                 try
                 {
@@ -103,7 +116,10 @@ namespace EmployeeSourcebook.DbAccess.Management
                     MessageBox.Show($"Monitor Error: {ex.Message}");
                 }
 
-                OnConnectionAttempt(DbConnection.State);
+                if (DbConnection != null)
+                    OnConnectionAttempt(DbConnection.State);
+                else
+                    throw new InvalidOperationException("DbConnection is not set");
 
                 try
                 {
