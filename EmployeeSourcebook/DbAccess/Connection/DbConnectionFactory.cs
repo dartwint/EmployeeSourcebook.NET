@@ -15,13 +15,13 @@ namespace EmployeeSourcebook.DbAccess.Connection
             {
                 if (connectionInfo is SQLiteConnectionBaseInfo sqliteConnection)
                 {
-                    if (!File.Exists(sqliteConnection.DataSource))
-                    {
-                        exception = new FileNotFoundException(
-                            $"Incorrect SQLite connection string:\n" +
-                            $"{connectionInfo.GetConnectionString()}");
-                        return null;
-                    }
+                    //if (!File.Exists(sqliteConnection.DataSource))
+                    //{
+                    //    exception = new FileNotFoundException(
+                    //        $"Incorrect SQLite connection string:\n" +
+                    //        $"{connectionInfo.GetConnectionString()}");
+                    //    return null;
+                    //}
 
                     return new SqliteConnection(sqliteConnection.GetConnectionString());
                 }

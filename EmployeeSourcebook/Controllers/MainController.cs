@@ -44,14 +44,14 @@ namespace EmployeeSourcebook.Controllers
         private void ConstructSQLCommands<TDbConnection>() where TDbConnection : DbConnection
         {
             SQLCommandWrapper? 
-                createCommand = null, 
+                createTablesCommand = null, 
                 insertDummyCommand = null, 
                 selectTablesListCommand = null;
 
             var type = typeof(TDbConnection);
             if (type.IsAssignableFrom(typeof(SqliteConnection)))
             {
-                createCommand = new SQLCommandWrapper(
+                createTablesCommand = new SQLCommandWrapper(
                     File.ReadAllText(Resources.SqliteDbCreationCmdFile));
                 
                 insertDummyCommand = new SQLCommandWrapper(
@@ -62,7 +62,7 @@ namespace EmployeeSourcebook.Controllers
             }
             else if (type.IsAssignableFrom(typeof(NpgsqlConnection)))
             {
-                createCommand = new SQLCommandWrapper(
+                createTablesCommand = new SQLCommandWrapper(
                     File.ReadAllText(Resources.NpsqlDbCreationCmdFile));
 
                 insertDummyCommand = new SQLCommandWrapper(
@@ -72,9 +72,9 @@ namespace EmployeeSourcebook.Controllers
                     "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';");
             }
 
-            if (createCommand != null)
+            if (createTablesCommand != null)
             {
-                sqlCommandsRegistry.AddCommand<TDbConnection>(createTablesKey, createCommand);
+                sqlCommandsRegistry.AddCommand<TDbConnection>(createTablesKey, createTablesCommand);
             }
 
             if (insertDummyCommand != null)

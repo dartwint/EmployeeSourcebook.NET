@@ -23,7 +23,8 @@ namespace EmployeeSourcebook.Controllers
             _formMain.ButtonConnectionSettingsClick += ShowFormConnection;
             _formMain.ButtonSettingsClick += ShowFormSettings;
             _formConnection.FormClosed += OnFormConnectionClosed;
-            _connectionController.ConnectionStateUpdated += UpdateStatusUI;
+            //_connectionController.ConnectionStateUpdated += UpdateStatusUI;
+            _connectionController.ConnectionAttempt += UpdateStatusUI;
 
             _formMain.TableTabSelected += OnTableTabSelected;
         }
@@ -54,8 +55,8 @@ namespace EmployeeSourcebook.Controllers
                 return;
 
             string tableName = tab.Text;
-            var data = UserActionToSQLCommand.GetDataFromTable(new SQLExecutor(),
-                _connectionController.DbConnection, tableName);
+            var data = DbAdminManager.GetDataFromTable(new SQLExecutor(),
+                _connectionController.DbConnection, tableName, out Exception? ex);
 
             if (_formMain.InvokeRequired)
             {
@@ -65,11 +66,17 @@ namespace EmployeeSourcebook.Controllers
             {
                 SetDataToGridView(_formMain.DataGridView, data);
             }
+
+            if (ex != null)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void SetDataToGridView(DataGridView dataGridView, object? data)
         {
             //dataGridView.DataSource = new BindingList<>();
+
             dataGridView.DataSource = data;
         }
 
@@ -81,26 +88,6 @@ namespace EmployeeSourcebook.Controllers
         private void ShowFormConnection()
         {
             _formConnection.ShowDialog();
-        }
-
-        private void CreateTables()
-        {
-            if (_connectionController.DbConnection == null || 
-                _connectionController.DbConnection.State != ConnectionState.Open)
-                return;
-
-            SQLCommandWrapper? cmdWrapper;
-            if (MainController.sqlCommandsRegistry.TryGetCommand(
-                _connectionController.DbConnection, MainController.createTablesKey, out cmdWrapper)
-                && cmdWrapper != null)
-            {
-                string cmdText = cmdWrapper.CommandText;
-                if (!string.IsNullOrEmpty(cmdText))
-                {
-                    var executor = new SQLExecutor();
-                    executor.Execute(_connectionController.DbConnection, cmdText);
-                }
-            }
         }
 
         private List<TableTab>? CreateTabs()

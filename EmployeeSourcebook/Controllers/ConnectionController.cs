@@ -49,6 +49,7 @@ namespace EmployeeSourcebook.Controllers
 
         public event Action<DbConnection?>? ConnectionChanged;
         public event Action<ConnectionState>? ConnectionStateUpdated;
+        public event Action<ConnectionState>? ConnectionAttempt;
 
         private FormConnection _formConnection;
         private FormMain _formMain;
@@ -63,7 +64,14 @@ namespace EmployeeSourcebook.Controllers
             _formConnection.FormClosed += OnFormConnectionClosed;
             _formConnection.Load += OnFormConnectionOpened;
 
+            _connectionMonitor.ConnectionAttempt += OnConnectionAttempt;
+
             //DbConnection.StateChange += OnDbConnectionStateChanged;
+        }
+
+        private void OnConnectionAttempt(ConnectionState connectionState)
+        {
+            ConnectionAttempt?.Invoke(connectionState);
         }
 
         private void OnFormConnectionClosed(object? sender, FormClosedEventArgs e)
@@ -82,8 +90,6 @@ namespace EmployeeSourcebook.Controllers
             if (connectionInfo == null)
                 return;
 
-            _formConnection.LockOnConnection();
-
             if (_connectionMonitor != null && _connectionMonitor.IsRunning)
             {
                 _connectionMonitor.Stop();
@@ -91,12 +97,14 @@ namespace EmployeeSourcebook.Controllers
 
             _formConnection.UpdateConnectionStatus(ConnectionState.Connecting);
             _formConnection.Update();
+            _formConnection.LockOnConnection();
 
             var connectionFactory = new DbConnectionFactory();
             Exception? exception;
             var connection = connectionFactory.Create(connectionInfo, out exception);
             if (connection == null)
             {
+                _formConnection.UnlockOnConnection();
                 _formConnection.UpdateConnectionStatus(ConnectionState.Broken);
 
                 string message = "You entered incorrect data.\n" +
@@ -107,8 +115,8 @@ namespace EmployeeSourcebook.Controllers
                 MessageBox.Show(message, "Connection error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                DbConnection = null;
-                
+                //DbConnection = null;
+
                 return;
             }
 
@@ -116,15 +124,20 @@ namespace EmployeeSourcebook.Controllers
             DbConnection.Disposed += OnDbConnectionDisposed;
             DbConnection.StateChange += OnDbConnectionStateChanged;
 
-            _connectionMonitor = new ConnectionMonitor(DbConnection);
+            //_connectionMonitor = new ConnectionMonitor(DbConnection);
+            if (_connectionMonitor == null)
+            {
+                throw new NullReferenceException($"{nameof(_connectionMonitor)} is null");
+            }
+
+            _connectionMonitor.UpdateConnection(DbConnection);
 
             bool connectionResult = _connectionMonitor.TryConnect();
             if (connectionResult)
             {
                 ConnectionStateUpdated?.Invoke(ConnectionState.Open);
 
-                //if (_connectionMonitor.DbConnection != null)
-                //    WriteDummyDataToDb(_connectionMonitor.DbConnection);
+                //DbAdminManager.WriteDummyData(new SQLExecutor(), DbConnection);
             }
             else
             {

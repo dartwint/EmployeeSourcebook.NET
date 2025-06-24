@@ -19,10 +19,10 @@ namespace EmployeeSourcebook.DbAccess.Management
 
         public ConnectionMonitor() { }
 
-        public ConnectionMonitor(DbConnection connection)
-        {
-            _connection = connection;
-        }
+        //public ConnectionMonitor(DbConnection connection)
+        //{
+        //    _connection = connection;
+        //}
 
         public void Start(TimeSpan interval, int retriesCount = 0)
         {
@@ -33,7 +33,8 @@ namespace EmployeeSourcebook.DbAccess.Management
                     return;
 
                 if (IsRunning)
-                    throw new InvalidOperationException("Monitoring already started.");
+                    //throw new InvalidOperationException("Monitoring already started.");
+                    return;
 
                 IsRunning = true;
                 _retriesCount = retriesCount;
